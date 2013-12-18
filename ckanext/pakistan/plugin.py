@@ -24,7 +24,7 @@ class PakistanCustomizations(p.SingletonPlugin):
         config['extra_template_paths'] = ','.join([template_dir,
                 config.get('extra_template_paths', '')])
 
-        toolkit.add_resource('theme/resources', 'ckanext-pakistan')
+        toolkit.add_resource('theme/resources', 'pakistan-theme')
 
     def before_map(self, route_map):
         return route_map
@@ -40,7 +40,15 @@ class DashboardView(p.SingletonPlugin):
     p.implements(p.IPackageController, inherit=True)
 
     def update_config(self, config):
-        p.toolkit.add_template_directory(config, 'dashboard/templates')
+        here = os.path.dirname(__file__)
+        rootdir = os.path.dirname(os.path.dirname(here))
+
+        template_dir = os.path.join(rootdir, 'ckanext', 'pakistan', 'dashboard',
+                'templates')
+        config['extra_template_paths'] = ','.join([template_dir,
+                config.get('extra_template_paths', '')])
+
+        toolkit.add_resource('dashboard/resources', 'dashboard-view')
 
     def info(self):
         return {'name': 'dashboard',

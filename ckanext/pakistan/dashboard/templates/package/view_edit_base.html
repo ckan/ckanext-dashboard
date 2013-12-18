@@ -1,0 +1,11 @@
+{% ckan_extends %}
+
+{% block styles %}
+  {{ super() }}
+  {% resource 'dashboard-view/vendor/jquery.gridster.css' %}
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  {% resource 'dashboard-view/vendor/jquery.gridster.js' %}
+{% endblock %}
