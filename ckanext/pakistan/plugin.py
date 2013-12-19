@@ -5,6 +5,54 @@ import ckan.plugins.toolkit as toolkit
 
 log = logging.getLogger(__name__)
 
+available_views = [
+  { "icon": "picture",
+    "title": "View #1",
+    "sizex": 2,
+    "sizey": 1 },
+  { "icon": "line-chart",
+    "title": "View #2",
+    "sizex": 1,
+    "sizey": 1 },
+  { "icon": "compass",
+    "title": "View #3",
+    "sizex": 1,
+    "sizey": 1 },
+  { "icon": "picture",
+    "title": "View #4",
+    "sizex": 1,
+    "sizey": 1 }
+  ]
+
+current_views = [
+  { "title": "View #1",
+    "sizex": 2,
+    "sizey": 1,
+    "row": 1,
+    "col": 1 },
+  { "title": "View #2",
+    "sizex": 1,
+    "sizey": 1,
+    "row": 1,
+    "col": 3 },
+  { "title": "View #3",
+    "sizex": 1,
+    "sizey": 1,
+    "row": 1,
+    "col": 3 },
+  { "title": "View #4",
+    "sizex": 1,
+    "sizey": 1,
+    "row": 2,
+    "col": 4 }
+  ]
+
+def get_available_views():
+    return available_views
+
+def get_current_views():
+    return current_views
+
 class PakistanCustomizations(p.SingletonPlugin):
     p.implements(p.IRoutes)
     p.implements(p.IConfigurer, inherit=True)
@@ -38,6 +86,7 @@ class DashboardView(p.SingletonPlugin):
     p.implements(p.IConfigurer, inherit=True)
     p.implements(p.IResourceView, inherit=True)
     p.implements(p.IPackageController, inherit=True)
+    p.implements(p.ITemplateHelpers)
 
     def update_config(self, config):
         here = os.path.dirname(__file__)
@@ -81,5 +130,9 @@ class DashboardView(p.SingletonPlugin):
 
     def after_create(self, context, data_dict):
         self.add_default_views(context, data_dict)
+
+    def get_helpers(self):
+        return {'get_available_views': get_available_views,
+                'get_current_views': get_current_views}
 
 

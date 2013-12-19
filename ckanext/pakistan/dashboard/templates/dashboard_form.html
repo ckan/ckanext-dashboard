@@ -1,3 +1,19 @@
-{% import 'macros/form.html' as form %}
-
-<!-- dashboard_form -->
+<div class="dashboard-view-edit" data-module="dashboard-view-edit">
+  <hr>
+  <div class="btn-group">
+    <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+      {{ _('Add widget') }} <span class="caret"></span>
+    </a>
+    <ul id="dashboard-view-edit-new" class="dropdown-menu">
+      {% for view in h.get_available_views() %}
+        <li>
+          <a href="#" data-json="{{ view|e }}">
+            <i class="icon-{{ view.icon }}"></i> {{ view.title }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% snippet "snippets/dashboard_views_list.html", views=h.get_current_views() %}
+  <input type="hidden" name="json" value="{{ views|e }}">
+</div>

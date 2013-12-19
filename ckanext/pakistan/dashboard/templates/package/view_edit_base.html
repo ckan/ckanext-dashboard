@@ -1,11 +1,37 @@
 {% ckan_extends %}
 
+{% set is_dashboard_view = resource_view.view_type == 'dashboard' %}
+
 {% block styles %}
   {{ super() }}
-  {% resource 'dashboard-view/vendor/jquery.gridster.css' %}
+  {% if is_dashboard_view %}
+    {% resource 'dashboard-view/vendor/jquery.gridster.css' %}
+    {% resource 'dashboard-view/styles/dashboard-view.css' %}
+  {% endif %}
 {% endblock %}
 
 {% block scripts %}
   {{ super() }}
-  {% resource 'dashboard-view/vendor/jquery.gridster.js' %}
+  {% if is_dashboard_view %}
+    {% resource 'dashboard-view/vendor/jquery.gridster.js' %}
+    {% resource 'dashboard-view/scripts/dashboard-view.js' %}
+  {% endif %}
+{% endblock %}
+
+{% block main_content %}
+  {% if is_dashboard_view %}
+    {{ self.flash() }}
+    {{ self.toolbar() }}
+    <div class="wrapper no-nav">
+      {{ self.primary_content() }}
+    </div>
+  {% else %}
+    {{ super() }}
+  {% endif %}
+{% endblock %}
+
+{% block secondary %}
+  {% if not is_dashboard_view %}
+    {{ super() }}
+  {% endif %}
 {% endblock %}

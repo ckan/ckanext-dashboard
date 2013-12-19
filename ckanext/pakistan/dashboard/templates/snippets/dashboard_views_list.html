@@ -1,0 +1,16 @@
+<ul class="dashboard-grid">
+  {% for view in views %}
+    <li class="box module module-narrow module-shallow" data-row="{{ view.row }}" data-col="{{ view.col }}" data-sizex="{{ view.sizex }}" data-sizey="{{ view.sizey }}" data-title="{{ view.title }}">
+      <header class="module-heading">
+        <i class="icon-{{ view.icon }}"></i>
+        <a href="{{ view.url }}" class="pull-right"><i class="icon-external-link"></i></a>
+        <strong>{{ view.title }}</strong>
+      </header>
+      {#<iframe src="{{ view.url }}"></iframe>#}
+      <footer class="module-footer">
+        <a href="{{ view.edit_url }}" class="btn btn-primary btn-small">{{ _('Edit') }}</a>
+        <a href="{{ view.remove_url }}" class="btn btn-danger btn-small">{{ _('Remove') }}</a>
+      </footer>
+    </li>
+  {% endfor %}
+</ul>

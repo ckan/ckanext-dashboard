@@ -1,0 +1,48 @@
+@preview-holder: #FFFEE6;
+
+.dashboard-grid {
+  margin: 10px -10px;
+  padding: 0;
+  list-style-type: none;
+  li.box {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    z-index: 2;
+    .module-heading {
+      border-radius: 3px 3px 0 0;
+    }
+    .module-footer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+  }
+}
+
+.dashboard-view-edit {
+  .module {
+    margin-bottom: 0;
+  }
+  button[name="preview"] {
+    display: none;
+  }
+  .dashboard-grid {
+    .box {
+      cursor: move;
+      &:hover {
+        border-color: #005d7a;
+        box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.05);
+      }
+    }
+    .preview-holder {
+      position: absolute;
+      background-color: @preview-holder;
+      border: 1px solid darken(@preview-holder, 10%);
+      z-index: 1;
+      border-radius: 3px;
+    }
+  }
+}
