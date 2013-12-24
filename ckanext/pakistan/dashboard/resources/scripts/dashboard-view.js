@@ -73,6 +73,6 @@ this.ckan.module('dashboard-view', {
     $('.dashboard-grid', this.el).gridster({
       widget_margins: [10, 10],
       widget_base_dimensions: [206, 206]
-    });
+    }).data('gridster').disable();
   }
 });

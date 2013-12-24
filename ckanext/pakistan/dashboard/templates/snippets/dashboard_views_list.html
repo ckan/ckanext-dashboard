@@ -7,10 +7,12 @@
         <strong>{{ view.title }}</strong>
       </header>
       {#<iframe src="{{ view.url }}"></iframe>#}
-      <footer class="module-footer">
-        <a href="{{ view.edit_url }}" class="btn btn-primary btn-small">{{ _('Edit') }}</a>
-        <a href="{{ view.remove_url }}" class="btn btn-danger btn-small">{{ _('Remove') }}</a>
-      </footer>
+      {% if can_edit %}
+        <footer class="module-footer">
+          <a href="{{ view.edit_url }}" class="btn btn-primary btn-small">{{ _('Edit') }}</a>
+          <a href="{{ view.remove_url }}" class="btn btn-danger btn-small">{{ _('Remove') }}</a>
+        </footer>
+      {% endif %}
     </li>
   {% endfor %}
 </ul>

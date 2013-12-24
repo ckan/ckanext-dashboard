@@ -1,11 +1,20 @@
 {% ckan_extends %}
 
+{# FYI: this should really check if the currently visible view is a dasboard #}
+{% set is_dashboard_view = true %}
+
 {% block styles %}
   {{ super() }}
-  {% resource 'dashboard-view/vendor/jquery.gridster.css' %}
+  {% if is_dashboard_view %}
+    {% resource 'dashboard-view/vendor/jquery.gridster.css' %}
+    {% resource 'dashboard-view/styles/dashboard-view.css' %}
+  {% endif %}
 {% endblock %}
 
 {% block scripts %}
   {{ super() }}
-  {% resource 'dashboard-view/vendor/jquery.gridster.js' %}
+  {% if is_dashboard_view %}
+    {% resource 'dashboard-view/vendor/jquery.gridster.js' %}
+    {% resource 'dashboard-view/scripts/dashboard-view.js' %}
+  {% endif %}
 {% endblock %}

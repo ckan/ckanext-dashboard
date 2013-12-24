@@ -14,6 +14,6 @@
       {% endfor %}
     </ul>
   </div>
-  {% snippet "snippets/dashboard_views_list.html", views=h.get_current_views() %}
+  {% snippet "snippets/dashboard_views_list.html", views=h.get_current_views(), can_edit=true %}
   <input type="hidden" name="json" value="{{ views|e }}">
 </div>
