@@ -2,6 +2,7 @@ import os
 import logging
 import ckan.plugins as p
 import ckan.plugins.toolkit as toolkit
+import ckan.lib.datapreview as datapreview
 
 log = logging.getLogger(__name__)
 
