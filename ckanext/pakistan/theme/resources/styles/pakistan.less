@@ -639,7 +639,7 @@ a.tag:hover {
 .site-footer label,
 .site-footer small,
 .site-footer a {
-  color: inherit;
+  color: @black;
 }
 .site-footer:before {
 	content:'';
@@ -649,6 +649,38 @@ a.tag:hover {
 	height:15px;
 	top:0;
 }
+.site-footer .logos {
+	display:table;
+	margin:10px 0 20px 0;
+}
+.site-footer .logos li {
+	display:table-cell;
+	padding-right:13px;
+}
+.ie7 .site-footer .logos li,
+.ie8 .site-footer .logos li {
+	float:left;
+}
+.attribution {
+	float:right;
+	width:auto;
+}
+.attribution small {
+	display:inline-block;
+	vertical-align:middle;
+}
+.ie7 .attribution,
+.ie8 .attribution {
+	clear:left;
+}
+.attribution .ckan-footer-logo {
+	background-image:url(../img/ckan.png);
+  width: 79px;
+	height:26px;
+	display:inline-block;
+	vertical-align:middle;
+}
+
 
 
 /* Homepage
