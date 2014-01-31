@@ -146,6 +146,10 @@ a:focus {
   font-size: inherit;
   color: #ffffff;
 }
+.btn .icon-large[class^="icon-"],
+.btn .icon-large[class*=" icon-"] {
+  line-height: inherit;
+}
 .btn [class^="icon-"]:before,
 .btn [class*=" icon-"]:before {
   background-color: #404040;
@@ -755,4 +759,20 @@ div.notes {
 }
 .media-item:hover .media-image {
   border-color: #57a3ea;
+}
+/* Views
+   ====================================================== */
+.view-list li.active a,
+.view-list li a.active,
+.view-list li a:hover {
+  border-color: #57a3ea;
+}
+.view-list li.active a .icon,
+.view-list li a.active .icon,
+.view-list li a:hover .icon {
+  background-color: #57a3ea;
+  color: #ffffff;
+}
+.view-list li .arrow {
+  border-top-color: #57a3ea;
 }
