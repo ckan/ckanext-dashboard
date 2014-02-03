@@ -776,3 +776,20 @@ div.notes {
 .view-list li .arrow {
   border-top-color: #57a3ea;
 }
+/* Pages
+   ====================================================== */
+.blog .date {
+  color: #000000;
+}
+.lead,
+.blog p:first-of-type {
+  font-size: 22px;
+  line-height: 27px;
+}
+.secondary .blog-content .btn.more {
+  display: inline-block;
+}
+.blog .secondary .module-heading {
+  visibility: hidden;
+  padding: 0;
+}
