@@ -62,7 +62,9 @@ this.ckan.module('dashboard-view', {
   initialize: function () {
     $('.dashboard-grid', this.el).gridster({
       widget_margins: [10, 10],
-      widget_base_dimensions: [130, 130]
+      widget_base_dimensions: [130, 130],
+      min_cols: 6,
+      max_cols: 6
     }).data('gridster').disable();
   }
 });

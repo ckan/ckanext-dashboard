@@ -7,7 +7,7 @@
     <ul id="dashboard-view-edit-new" class="dropdown-menu">
       {% for view in available_views %}
         <li>
-          <a href="#" data-view_id="{{ view.id }}" data-view-sizex="{{ h.resource_view_dimensions(view)['xaxis'] }}" data-view-sizey="{{ h.resource_view_dimensions(view)['yaxis'] }}">
+          <a href="#" data-view_id="{{ view.id }}" data-view-sizex="{{ h.resource_view_dimensions(view)['sizex'] }}" data-view-sizey="{{ h.resource_view_dimensions(view)['sizey'] }}">
             <i class="icon-{{ view.icon }}"></i> {{ view.title }}
           </a>
         </li>
