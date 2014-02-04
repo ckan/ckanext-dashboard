@@ -19,6 +19,18 @@
   right: 0;
   bottom: 0;
 }
+.dashboard-grid li.box .description {
+  display: block;
+}
+.dashboard-grid li.box .module-heading {
+  display: block;
+  height: 60px;
+}
+.dashboard-grid li.box .remove {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
 .dashboard-view-edit .module {
   margin-bottom: 0;
 }

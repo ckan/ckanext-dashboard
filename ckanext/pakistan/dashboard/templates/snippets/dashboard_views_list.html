@@ -4,8 +4,9 @@
       <header class="module-heading">
         <i class="icon-{{ view.icon }}"></i>
         <strong>{{ view.title }}</strong>
+        <span class="description">{{ view.description }}{% if not can_edit %}<a class="readmore">More</a>{% endif %}</span>
       </header>
-      <div style="overflow: auto; height:{{130 * view.sizey - 53}}px">
+      <div style="overflow: auto; height:{{130 * view.sizey - 55}}px">
       {% if not h.resource_view_is_iframed(view) %}
         {{ h.rendered_resource_view(view, view.resource, view.package) }}
       {% else %}
@@ -16,10 +17,9 @@
       {% endif %}
       </div>
       {% if can_edit %}
-        <footer class="module-footer">
-          <a href="{{ view.remove_url }}" class="btn btn-danger btn-small pull-right">{{ _('Remove') }}</a>
-        </footer>
+        <a href="{{ view.remove_url }}" class="btn btn-danger btn-small remove">{{ _('Remove') }}</a>
       {% endif %}
     </li>
   {% endfor %}
 </ul>
+{% resource 'dashboard-view/vendor/jquery.dotdotdot.js' %}

@@ -66,3 +66,10 @@ this.ckan.module('dashboard-view', {
     }).data('gridster').disable();
   }
 });
+
+$(window).bind("load", function() {
+   $(".dashboard-grid .module .module-heading").dotdotdot({
+    // configuration
+		after: "a.readmore"
+  });
+});
