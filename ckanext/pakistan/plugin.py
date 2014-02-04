@@ -3,56 +3,11 @@ import logging
 import ckan.plugins as p
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.datapreview as datapreview
+import ckan.lib.helpers as helpers
+import json
+ignore_empty = toolkit.get_validator('ignore_empty')
 
 log = logging.getLogger(__name__)
-
-available_views = [
-  { "icon": "picture",
-    "title": "View #1",
-    "sizex": 2,
-    "sizey": 1 },
-  { "icon": "line-chart",
-    "title": "View #2",
-    "sizex": 1,
-    "sizey": 1 },
-  { "icon": "compass",
-    "title": "View #3",
-    "sizex": 1,
-    "sizey": 1 },
-  { "icon": "picture",
-    "title": "View #4",
-    "sizex": 1,
-    "sizey": 1 }
-  ]
-
-current_views = [
-  { "title": "View #1",
-    "sizex": 2,
-    "sizey": 1,
-    "row": 1,
-    "col": 1 },
-  { "title": "View #2",
-    "sizex": 1,
-    "sizey": 1,
-    "row": 1,
-    "col": 3 },
-  { "title": "View #3",
-    "sizex": 1,
-    "sizey": 1,
-    "row": 1,
-    "col": 3 },
-  { "title": "View #4",
-    "sizex": 1,
-    "sizey": 1,
-    "row": 2,
-    "col": 4 }
-  ]
-
-def get_available_views():
-    return available_views
-
-def get_current_views():
-    return current_views
 
 class PakistanCustomizations(p.SingletonPlugin):
     p.implements(p.IRoutes)
@@ -87,7 +42,6 @@ class DashboardView(p.SingletonPlugin):
     p.implements(p.IConfigurer, inherit=True)
     p.implements(p.IResourceView, inherit=True)
     p.implements(p.IPackageController, inherit=True)
-    p.implements(p.ITemplateHelpers)
 
     def update_config(self, config):
         here = os.path.dirname(__file__)
@@ -104,7 +58,10 @@ class DashboardView(p.SingletonPlugin):
         return {'name': 'dashboard',
                 'title': 'Dashboard',
                 'icon': 'dashboard',
-                'iframed': False}
+                'iframed': False,
+                'schema': {'json': [ignore_empty, unicode]},
+                'preview_enabled': False,
+                }
 
     def can_view(self, data_dict):
         return True
@@ -115,25 +72,44 @@ class DashboardView(p.SingletonPlugin):
     def form_template(self, context, data_dict):
         return 'dashboard_form.html'
 
-    def add_default_views(self, context, data_dict):
-        resources = datapreview.get_new_resources(context, data_dict)
-        for resource in resources:
-            view = {'title': 'Dashboard',
-                    'description': 'Dashboard description here',
-                    'resource_id': resource['id'],
-                    'view_type': 'dashboard'}
-            context['defer_commit'] = True
-            p.toolkit.get_action('resource_view_create')(context, view)
-            context.pop('defer_commit')
+    def setup_template_variables(self, context, data_dict):
+        resource_views = []
+        for resource in data_dict['package'].get('resources', []):
+            views = toolkit.get_action('resource_view_list')(context, resource)
+            for view in views:
+                view['icon'] = helpers.resource_view_icon(view)
+                resource_views.append(view)
 
-    def after_update(self, context, data_dict):
-        self.add_default_views(context, data_dict)
+        ## When rendering each view we need to provide both the views resource and
+        ## the package.  This is expensive todo for each view and due to the 
+        ## likelihood the view will be on the same resource/packages
+        ## we cache the get action calls so we do not have to repeat the calls for 
+        ## packages/resources already fetched.
+        resource_cache = {}
+        package_cache = {}
 
-    def after_create(self, context, data_dict):
-        self.add_default_views(context, data_dict)
+        current_dashboard = data_dict['resource_view'].get('json', '[]')
+        current_dashboard = json.loads(current_dashboard)
+        for view in current_dashboard:
+            view.update(
+                toolkit.get_action('resource_view_show')(context, view)
+            )
 
-    def get_helpers(self):
-        return {'get_available_views': get_available_views,
-                'get_current_views': get_current_views}
+            resource = resource_cache.get(view['resource_id'])
+            if not resource:
+                resource = toolkit.get_action('resource_show')(
+                    context, {'id': view['resource_id']}
+                )
+                resource_cache[view['resource_id']] = resource
+            view['resource'] = resource
 
+            package = package_cache.get(view['package_id'])
+            if not package:
+                package = toolkit.get_action('package_show')(
+                    context, {'id': view['package_id']}
+                )
+                package_cache[view['package_id']] = package
+            view['package'] = package
 
+        return {'available_views': resource_views,
+                'current_dashboard': current_dashboard}

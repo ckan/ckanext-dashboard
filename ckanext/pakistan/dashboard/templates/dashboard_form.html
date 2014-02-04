@@ -5,15 +5,15 @@
       {{ _('Add widget') }} <span class="caret"></span>
     </a>
     <ul id="dashboard-view-edit-new" class="dropdown-menu">
-      {% for view in h.get_available_views() %}
+      {% for view in available_views %}
         <li>
-          <a href="#" data-json="{{ view|e }}">
+          <a href="#" data-view_id="{{ view.id }}" data-view-sizex="{{ h.resource_view_dimensions(view)['xaxis'] }}" data-view-sizey="{{ h.resource_view_dimensions(view)['yaxis'] }}">
             <i class="icon-{{ view.icon }}"></i> {{ view.title }}
           </a>
         </li>
       {% endfor %}
     </ul>
   </div>
-  {% snippet "snippets/dashboard_views_list.html", views=h.get_current_views(), can_edit=true %}
-  <input type="hidden" name="json" value="{{ views|e }}">
+  {% snippet "snippets/dashboard_views_list.html", views=current_dashboard, can_edit=true %}
+  <input type="hidden" name="json" value="{{ data.get('json', []) }}">
 </div>

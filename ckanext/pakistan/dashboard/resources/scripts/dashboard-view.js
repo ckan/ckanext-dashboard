@@ -6,19 +6,6 @@ this.ckan.module('dashboard-view-edit', function ($, _) {
         remove: _('Remove')
       }
     },
-    template: [
-      '<li class="box module module-narrow module-shallow">',
-      '<header class="module-heading">',
-      '<i class="icon-{{icon}}"></i>',
-      '<a href="{{url}}" class="pull-right"><i class="icon-external-link"></i></a>',
-      '<strong>{{title}}</strong>',
-      '</header>',
-      '<footer class="module-footer">',
-      '<a href="#" class="btn btn-primary btn-small">{{edit}}</a> ',
-      '<a href="#" class="btn btn-danger btn-small">{{remove}}</a>',
-      '</footer>',
-      '</li>'
-    ].join(''),
 
     initialize: function () {
       $.proxyAll(this, /_/);
@@ -29,9 +16,14 @@ this.ckan.module('dashboard-view-edit', function ($, _) {
       this.gridster = $('.dashboard-grid', this.el)
         .gridster({
           widget_margins: [10, 10],
-          widget_base_dimensions: [206, 206],
+          widget_base_dimensions: [130, 130],
+          min_cols: 6,
+          max_cols: 6,
           draggable: {
             stop: this._serialize
+          },
+          serialize_params: function($w, wgd) {
+            return { col: wgd.col, row: wgd.row, sizex: wgd.size_x, sizey: wgd.size_y, id: $w.attr('id') }
           }
         })
         .data('gridster');
@@ -41,15 +33,13 @@ this.ckan.module('dashboard-view-edit', function ($, _) {
 
     _add: function (e) {
       e.preventDefault();
-      var view = JSON.parse($(e.target).data('json').replace(/'/g, '"'));
-      var html = this.template
-        .replace('{{icon}}', view.icon)
-        .replace('{{title}}', view.title)
-        .replace('{{edit}}', this.i18n('edit'))
-        .replace('{{remove}}', this.i18n('remove'));
-      var template = $(html);
-      $('.btn-danger', template).on('click', this._remove);
-      this.gridster.add_widget(template, view.sizex, view.sizey);
+      var view_id = $(e.target).data('view_id');
+      var sizex = $(e.target).data('view-sizex');
+      var sizey = $(e.target).data('view-sizey');
+      template = '<li id="' + view_id + '"></li>'
+      this.gridster.add_widget(template, sizex, sizey);
+      this._serialize();
+      $(this.el.parent()).find('[name="preview"]').click()
     },
 
     _remove: function (e) {
@@ -72,7 +62,7 @@ this.ckan.module('dashboard-view', {
   initialize: function () {
     $('.dashboard-grid', this.el).gridster({
       widget_margins: [10, 10],
-      widget_base_dimensions: [206, 206]
+      widget_base_dimensions: [130, 130]
     }).data('gridster').disable();
   }
 });
