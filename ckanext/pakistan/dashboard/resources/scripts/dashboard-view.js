@@ -34,10 +34,8 @@ this.ckan.module('dashboard-view-edit', function ($, _) {
     _add: function (e) {
       e.preventDefault();
       var view_id = $(e.target).data('view_id');
-      var sizex = $(e.target).data('view-sizex');
-      var sizey = $(e.target).data('view-sizey');
       template = '<li id="' + view_id + '"></li>'
-      this.gridster.add_widget(template, sizex, sizey);
+      this.gridster.add_widget(template, 2, 2);
       this._serialize();
       $(this.el.parent()).find('[name="preview"]').click()
     },

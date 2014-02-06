@@ -96,12 +96,16 @@ class DashboardView(p.SingletonPlugin):
         current_dashboard = json.loads(current_dashboard)
         ##copy dashboard here so we can remove any items if the resource_view got deleted
         for view in current_dashboard[:]:
+            # override view size from what is serialized to default of view
             try:
                 resource_view = toolkit.get_action('resource_view_show')(context, view)
             except toolkit.ObjectNotFound:
                 ##skip any deleted views, next save should remove them properely
                 current_dashboard.remove(view)
                 continue
+
+            ## add default dimentions first
+            view.update(helpers.resource_view_dimensions(resource_view))
             view.update(resource_view)
 
             resource = resource_cache.get(view['resource_id'])
@@ -181,11 +185,17 @@ class BasicGrid(p.SingletonPlugin):
         if resource_view.get('sizex'):
             resource_view['sizey'] = int(resource_view['sizey'])
 
-        sizes = [{'value': num} for num in range(1,7)]
+        sizesx = [{'value': 2, 'text': 'Small'},
+                  {'value': 3, 'text': 'Medium'},
+                  {'value': 4, 'text': 'Large'},
+                  {'value': 6, 'text': 'Very Large'}]
+        sizesy = [{'value': 2, 'text': 'Small'},
+                  {'value': 4, 'text': 'Medium'},
+                  {'value': 6, 'text': 'Large'}]
 
         orientations = [{'value': 'horizontal'}, {'value': 'vertical'}]
 
-        return {'fields': fields, 'sizes': sizes, 'orientations': orientations}
+        return {'fields': fields, 'sizesx': sizesx, 'sizesy': sizesy, 'orientations': orientations}
 
     def _filter_fields_and_values_as_list(self, resource_view):
         if 'filter_fields' in resource_view:
