@@ -94,10 +94,15 @@ class DashboardView(p.SingletonPlugin):
 
         current_dashboard = data_dict['resource_view'].get('json', '[]')
         current_dashboard = json.loads(current_dashboard)
-        for view in current_dashboard:
-            view.update(
-                toolkit.get_action('resource_view_show')(context, view)
-            )
+        ##copy dashboard here so we can remove any items if the resource_view got deleted
+        for view in current_dashboard[:]:
+            try:
+                resource_view = toolkit.get_action('resource_view_show')(context, view)
+            except toolkit.ObjectNotFound:
+                ##skip any deleted views, next save should remove them properely
+                current_dashboard.remove(view)
+                continue
+            view.update(resource_view)
 
             resource = resource_cache.get(view['resource_id'])
             if not resource:
@@ -114,6 +119,7 @@ class DashboardView(p.SingletonPlugin):
                 )
                 package_cache[view['package_id']] = package
             view['package'] = package
+
 
         return {'available_views': resource_views,
                 'current_dashboard': current_dashboard}
