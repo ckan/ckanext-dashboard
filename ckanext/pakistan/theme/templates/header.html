@@ -1,0 +1,6 @@
+{% ckan_extends %}
+
+{% block header_logo %}
+  <h1 class="logo"><a href="{{ h.url('home') }}">{{ g.site_title }}</a></h1>
+  {% if g.site_description %}<h2 class="tagline">{{ g.site_description }}</h2>{% endif %}
+{% endblock %}
