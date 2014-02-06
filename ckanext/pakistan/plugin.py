@@ -5,7 +5,11 @@ import ckan.plugins.toolkit as toolkit
 import ckan.lib.datapreview as datapreview
 import ckan.lib.helpers as helpers
 import json
+import collections
 ignore_empty = toolkit.get_validator('ignore_empty')
+not_empty = toolkit.get_validator('not_empty')
+ignore_missing = toolkit.get_validator('ignore_missing')
+aslist = toolkit.aslist
 
 log = logging.getLogger(__name__)
 
@@ -113,3 +117,176 @@ class DashboardView(p.SingletonPlugin):
 
         return {'available_views': resource_views,
                 'current_dashboard': current_dashboard}
+
+class BasicGrid(p.SingletonPlugin):
+
+    p.implements(p.IConfigurer, inherit=True)
+    p.implements(p.IResourceView, inherit=True)
+    p.implements(p.ITemplateHelpers)
+
+    def get_helpers(self):
+        return {'view_data': _view_data}
+
+    def update_config(self, config):
+        here = os.path.dirname(__file__)
+        rootdir = os.path.dirname(os.path.dirname(here))
+
+        template_dir = os.path.join(rootdir, 'ckanext', 'pakistan', 'basicgrid',
+                'templates')
+        config['extra_template_paths'] = ','.join([template_dir,
+                config.get('extra_template_paths', '')])
+
+        #toolkit.add_resource('basicgrid/resources', 'basicgrid')
+
+    def info(self):
+        schema = {
+            'filter_fields': [ignore_missing],
+            'filter_values': [ignore_missing],
+            'fields': [ignore_missing],
+            'sizex': [ignore_missing, int],
+            'sizey': [ignore_missing, int],
+            'orientation': [ignore_missing],
+        }
+
+        return {'name': 'basicgrid',
+                'title': 'Grid',
+                'icon': 'dashboard',
+                'iframed': False,
+                'schema': schema,
+                }
+
+    def can_view(self, data_dict):
+        return True
+
+    def view_template(self, context, data_dict):
+        return 'basicgrid_view.html'
+
+    def form_template(self, context, data_dict):
+        return 'basicgrid_form.html'
+
+    def setup_template_variables(self, context, data_dict):
+        resource = data_dict['resource']
+        fields = _get_fields_without_id(resource)
+        resource_view = data_dict['resource_view']
+
+        self._filter_fields_and_values_as_list(resource_view)
+        if resource_view.get('sizex'):
+            resource_view['sizex'] = int(resource_view['sizex'])
+        if resource_view.get('sizex'):
+            resource_view['sizey'] = int(resource_view['sizey'])
+
+        sizes = [{'value': num} for num in range(1,7)]
+
+        orientations = [{'value': 'horizontal'}, {'value': 'vertical'}]
+
+        return {'fields': fields, 'sizes': sizes, 'orientations': orientations}
+
+    def _filter_fields_and_values_as_list(self, resource_view):
+        if 'filter_fields' in resource_view:
+            filter_fields = aslist(resource_view['filter_fields'])
+            resource_view['filter_fields'] = filter_fields
+        if 'filter_values' in resource_view:
+            filter_values = aslist(resource_view['filter_values'])
+            resource_view['filter_values'] = filter_values
+        if 'fields' in resource_view:
+            fields = aslist(resource_view['fields'])
+            resource_view['fields'] = fields
+
+
+def _get_fields_without_id(resource):
+    fields = _get_fields(resource)
+    return [{'value': v['id']} for v in fields if v['id'] != '_id']
+
+
+def _get_fields(resource):
+    data = {
+        'resource_id': resource['id'],
+        'limit': 0
+    }
+    result = p.toolkit.get_action('datastore_search')({}, data)
+    return result['fields']
+
+def parse_filter_params():
+    filters = collections.defaultdict(list)
+    filter_string = dict(toolkit.request.GET).get('filters','')
+    for filter in filter_string.split('|'):
+        if filter.count(':') <> 1:
+            continue
+        key, value = filter.split(':')
+        filters[key].append(value)
+    return dict(filters)
+
+def _view_data(resource_view):
+    data = {
+        'resource_id': resource_view['resource_id'],
+        'limit': int(resource_view.get('limit', 100))
+    }
+    filters = collections.defaultdict(list)
+
+    for key, value in zip(aslist(resource_view.get('filter_fields', [])),
+                          aslist(resource_view.get('filter_values', []))):
+        filters[key].append(value)
+
+    for key, value in parse_filter_params().items():
+        filters[key][:] = value
+
+    if filters:
+        data['filters'] = dict(filters)
+
+    fields = aslist(resource_view.get('fields', []))
+    if fields:
+        data['fields'] = fields
+
+    result = p.toolkit.get_action('datastore_search')({}, data)
+    return result
+
+
+############# MONKEY PATCH ####################
+
+import ckanext.datastore.db
+ValidationError = toolkit.ValidationError
+
+
+def _where(field_ids, data_dict):
+    '''Return a SQL WHERE clause from data_dict filters and q'''
+    filters = data_dict.get('filters', {})
+
+    if not isinstance(filters, dict):
+        raise ValidationError({
+            'filters': ['Not a json object']}
+        )
+
+    where_clauses = []
+    values = []
+
+    for field, value in filters.iteritems():
+        if field not in field_ids:
+            raise ValidationError({
+                'filters': ['field "{0}" not in table'.format(field)]}
+            )
+
+        ##### patch here #####
+        if isinstance(value, list):
+            where_clauses.append(
+                u'"{0}" in ({1})'.format(field,
+                ','.join(['%s'] * len(value)))
+            )
+            values.extend(value)
+            continue
+        ##### patch ends here #####
+
+        where_clauses.append(u'"{0}" = %s'.format(field))
+        values.append(value)
+
+    # add full-text search where clause
+    if data_dict.get('q'):
+        where_clauses.append(u'_full_text @@ query')
+
+    where_clause = u' AND '.join(where_clauses)
+    if where_clause:
+        where_clause = u'WHERE ' + where_clause
+    return where_clause, values
+
+ckanext.datastore.db._where = _where
+
+############# finish patch ####################
