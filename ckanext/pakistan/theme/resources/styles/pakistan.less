@@ -14,10 +14,10 @@
 @gothic:league_gothic, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
 @sans:'Helvetica Neue',Helvetica,Arial,sans-serif;
 
-.drop-shadow(@x-axis: 0, @y-axis: 0, @blur: 0, @alpha: 0) {
-  -webkit-box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
-  -moz-box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
-  box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
+.drop-shadow(@h-shadow: 0, @v-shadow: 0, @blur: 0, @spread: 0, @colour: rgba(0, 0, 0, 0)) {
+  -webkit-box-shadow: @h-shadow @v-shadow @spread @blur @colour;
+  -moz-box-shadow: @h-shadow @v-shadow @spread @blur @colour;
+  box-shadow: @h-shadow @v-shadow @spread @blur @colour;
 }
 .radius(@radius: 0px) {
   -webkit-border-radius: @radius;
