@@ -25,6 +25,8 @@
 .dashboard-grid li.box .module-heading {
   display: block;
   height: 60px;
+  padding-bottom: 4px;
+  padding-top: 10px;
 }
 .dashboard-grid li.box .remove {
   position: absolute;
