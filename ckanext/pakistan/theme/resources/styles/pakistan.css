@@ -803,6 +803,8 @@ div.notes {
   font-weight: 500;
 }
 .dashboard-view-edit .dashboard-grid .box:hover {
+  -webkit-box-shadow: 0 0 0 5px rgba(251, 186, 25, 0.5);
+  -moz-box-shadow: 0 0 0 5px rgba(251, 186, 25, 0.5);
   box-shadow: 0 0 0 5px rgba(251, 186, 25, 0.5);
 }
 /* Pages
