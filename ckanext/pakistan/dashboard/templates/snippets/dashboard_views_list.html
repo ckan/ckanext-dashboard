@@ -2,7 +2,6 @@
   {% for view in views %}
   <li id={{view.id}} class="box module module-narrow module-shallow" data-row="{{ view.row }}" data-col="{{ view.col }}" data-sizex="{{ view.sizex }}" data-sizey="{{ view.sizey }}" >
       <header class="module-heading">
-        <i class="icon-{{ view.icon }}"></i>
         <strong>{{ view.title }}</strong>
         <span class="description">{{ view.description }}{% if not can_edit %}<a class="readmore">More</a>{% endif %}</span>
       </header>
@@ -22,4 +21,4 @@
     </li>
   {% endfor %}
 </ul>
-{% resource 'dashboard-view/vendor/jquery.dotdotdot.js' %}
+{% resource 'dashboard-view/main' %}
