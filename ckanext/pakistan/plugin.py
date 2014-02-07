@@ -65,6 +65,7 @@ class DashboardView(p.SingletonPlugin):
                 'iframed': False,
                 'schema': {'json': [ignore_empty, unicode]},
                 'preview_enabled': False,
+                'full_page_edit': True,
                 }
 
     def can_view(self, data_dict):
@@ -160,7 +161,7 @@ class BasicGrid(p.SingletonPlugin):
 
         return {'name': 'basicgrid',
                 'title': 'Grid',
-                'icon': 'dashboard',
+                'icon': 'table',
                 'iframed': False,
                 'schema': schema,
                 }

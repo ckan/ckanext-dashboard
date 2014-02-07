@@ -28,6 +28,11 @@ this.ckan.module('dashboard-view-edit', function ($, _) {
         })
         .data('gridster');
 
+      $(".dashboard-grid .module .module-heading", this.el).dotdotdot({
+        // configuration
+        after: "a.readmore"
+      });
+
       this._serialize();
     },
 
@@ -64,12 +69,11 @@ this.ckan.module('dashboard-view', {
       min_cols: 6,
       max_cols: 6
     }).data('gridster').disable();
+
+    $(".dashboard-grid .module .module-heading", this.el).dotdotdot({
+      // configuration
+      after: "a.readmore"
+    });
   }
 });
 
-$(window).bind("load", function() {
-   $(".dashboard-grid .module .module-heading").dotdotdot({
-    // configuration
-		after: "a.readmore"
-  });
-});
