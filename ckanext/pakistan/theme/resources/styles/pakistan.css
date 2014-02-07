@@ -791,6 +791,20 @@ div.notes {
 .view-list li .arrow {
   border-top-color: #57a3ea;
 }
+.dashboard-grid li.box {
+  background-color: #ffffff;
+}
+.dashboard-grid li.box .module-heading {
+  padding-top: 0;
+  height: 70px;
+}
+.dashboard-grid li.box .module-heading strong {
+  font-size: 22px;
+  font-weight: 500;
+}
+.dashboard-view-edit .dashboard-grid .box:hover {
+  box-shadow: 0 0 0 5px rgba(251, 186, 25, 0.5);
+}
 /* Pages
    ====================================================== */
 .blog .date {
