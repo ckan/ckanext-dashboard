@@ -42,6 +42,17 @@
       </div>
     </div>
     <h2>Latest News</h2>
-    blog posts here
+    {% set posts = h.get_recent_blog_posts(5) %}
+    <ul>
+        {% for post in posts %}
+            <li class="blog-title">
+                <a href="{{ h.url_for(controller='ckanext.pages.controller:PagesController', action='blog_show', page='/' + post.name) }}">{{ post.title or post.name }}</a>
+                <small> {{ h.render_datetime(post.publish_date) }} </small>
+                {{ h.markdown_extract(post.content) }}
+                <img src={{ post.image or 'http://placehold.it/350x150' }}>
+            </li>
+        {% endfor %}
+    </ul>
+
   </div>
 </div>
