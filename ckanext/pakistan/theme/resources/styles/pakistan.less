@@ -14,10 +14,10 @@
 @gothic:league_gothic, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
 @sans:'Helvetica Neue',Helvetica,Arial,sans-serif;
 
-.drop-shadow(@x-axis: 0, @y-axis: 0, @blur: 0, @alpha: 0) {
-  -webkit-box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
-  -moz-box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
-  box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
+.drop-shadow(@h-shadow: 0, @v-shadow: 0, @blur: 0, @spread: 0, @colour: rgba(0, 0, 0, 0)) {
+  -webkit-box-shadow: @h-shadow @v-shadow @spread @blur @colour;
+  -moz-box-shadow: @h-shadow @v-shadow @spread @blur @colour;
+  box-shadow: @h-shadow @v-shadow @spread @blur @colour;
 }
 .radius(@radius: 0px) {
   -webkit-border-radius: @radius;
@@ -446,6 +446,21 @@ a.tag:hover {
 	text-transform:uppercase;
 	letter-spacing:2px;
 }
+.masthead .logo a {
+	font-size:40px;
+	line-height:66px;
+}
+.js .masthead .logo a span {
+	float:left;
+}
+.masthead .logo a span.word-1 {
+	color:@yellow;
+}
+.masthead .tagline {
+	color:@black;
+	font-family:@sans;
+	letter-spacing:5px;
+}
 .masthead .navigation .nav-pills li {
 	margin-top:9px;
 	margin-bottom:9px;
@@ -829,6 +844,21 @@ div.notes {
 }
 .view-list li .arrow {
 	border-top-color:@blue;
+}
+
+.dashboard-grid li.box {
+	background-color:@white;
+}
+.dashboard-grid li.box .module-heading {
+	padding-top:0;
+	height:70px;
+}
+.dashboard-grid li.box .module-heading strong {
+	font-size:22px;
+	font-weight:500;
+}
+.dashboard-view-edit .dashboard-grid .box:hover {
+    box-shadow: 0 0 0 5px fade(@yellow, 50%);
 }
 
 
