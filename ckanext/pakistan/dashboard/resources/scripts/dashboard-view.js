@@ -1,6 +1,7 @@
 this.ckan.module('dashboard-view-edit', function ($, _) {
   return {
     options: {
+      size: 130,
       i18n: {
         edit: _('Edit'),
         remove: _('Remove')
@@ -16,7 +17,7 @@ this.ckan.module('dashboard-view-edit', function ($, _) {
       this.gridster = $('.dashboard-grid', this.el)
         .gridster({
           widget_margins: [10, 10],
-          widget_base_dimensions: [130, 130],
+          widget_base_dimensions: [this.options.size, this.options.size],
           min_cols: 6,
           max_cols: 6,
           draggable: {
@@ -62,10 +63,13 @@ this.ckan.module('dashboard-view-edit', function ($, _) {
 });
 
 this.ckan.module('dashboard-view', {
+  options: {
+    size: 130,
+  },
   initialize: function () {
     $('.dashboard-grid', this.el).gridster({
       widget_margins: [10, 10],
-      widget_base_dimensions: [130, 130],
+      widget_base_dimensions: [this.options.size, this.options.size],
       min_cols: 6,
       max_cols: 6
     }).data('gridster').disable();

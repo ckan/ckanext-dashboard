@@ -46,6 +46,8 @@ class DashboardView(p.SingletonPlugin):
     p.implements(p.IConfigurer, inherit=True)
     p.implements(p.IResourceView, inherit=True)
     p.implements(p.IPackageController, inherit=True)
+    p.implements(p.ITemplateHelpers)
+    p.implements(p.IConfigurable, inherit=True)
 
     def update_config(self, config):
         here = os.path.dirname(__file__)
@@ -57,6 +59,15 @@ class DashboardView(p.SingletonPlugin):
                 config.get('extra_template_paths', '')])
 
         toolkit.add_resource('dashboard/resources', 'dashboard-view')
+
+    def configure(self, config):
+        self.size = int(config.get('ckan.dashboard.size', 130))
+
+    def get_size(self):
+        return self.size
+
+    def get_helpers(self):
+        return {'dashboard_size': self.get_size}
 
     def info(self):
         return {'name': 'dashboard',
