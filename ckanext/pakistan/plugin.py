@@ -46,7 +46,6 @@ class DashboardView(p.SingletonPlugin):
     p.implements(p.IConfigurer, inherit=True)
     p.implements(p.IResourceView, inherit=True)
     p.implements(p.IPackageController, inherit=True)
-    p.implements(p.ITemplateHelpers)
     p.implements(p.IConfigurable, inherit=True)
 
     def update_config(self, config):
@@ -62,12 +61,6 @@ class DashboardView(p.SingletonPlugin):
 
     def configure(self, config):
         self.size = int(config.get('ckan.dashboard.size', 130))
-
-    def get_size(self):
-        return self.size
-
-    def get_helpers(self):
-        return {'dashboard_size': self.get_size}
 
     def info(self):
         return {'name': 'dashboard',
@@ -121,8 +114,11 @@ class DashboardView(p.SingletonPlugin):
                 current_dashboard.remove(view)
                 continue
 
-            ## add default dimentions first
-            view.update(helpers.resource_view_dimensions(resource_view))
+            ##use resource_view's sizes if there're no sizes defined in view
+            resource_view_dimensions = helpers.resource_view_dimensions(resource_view)
+            view['sizex'] = view.get('sizex', resource_view_dimensions['sizex'])
+            view['sizey'] = view.get('sizey', resource_view_dimensions['sizey'])
+
             view.update(resource_view)
 
             resource = resource_cache.get(view['resource_id'])

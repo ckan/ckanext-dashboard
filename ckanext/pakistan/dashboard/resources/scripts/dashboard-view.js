@@ -23,6 +23,10 @@ this.ckan.module('dashboard-view-edit', function ($, _) {
           draggable: {
             stop: this._serialize
           },
+          resize: {
+            enabled: true,
+            stop: this._serialize
+          },
           serialize_params: function($w, wgd) {
             return { col: wgd.col, row: wgd.row, sizex: wgd.size_x, sizey: wgd.size_y, id: $w.attr('id') }
           }
