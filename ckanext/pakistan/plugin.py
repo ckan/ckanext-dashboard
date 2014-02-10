@@ -78,10 +78,17 @@ class DashboardView(p.SingletonPlugin):
         return 'dashboard_form.html'
 
     def setup_template_variables(self, context, data_dict):
+        current_dashboard = data_dict['resource_view'].get('json', '[]')
+        current_dashboard = json.loads(current_dashboard)
+
+        current_view_ids = set(view['id'] for view in current_dashboard)
+
         resource_views = []
         for resource in data_dict['package'].get('resources', []):
             views = toolkit.get_action('resource_view_list')(context, resource)
             for view in views:
+                if view['id'] in current_view_ids or view['view_type'] == 'dashboard':
+                    continue
                 view['icon'] = helpers.resource_view_icon(view)
                 resource_views.append(view)
 
@@ -93,8 +100,6 @@ class DashboardView(p.SingletonPlugin):
         resource_cache = {}
         package_cache = {}
 
-        current_dashboard = data_dict['resource_view'].get('json', '[]')
-        current_dashboard = json.loads(current_dashboard)
         ##copy dashboard here so we can remove any items if the resource_view got deleted
         for view in current_dashboard[:]:
             # override view size from what is serialized to default of view
