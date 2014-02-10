@@ -166,8 +166,6 @@ class BasicGrid(p.SingletonPlugin):
             'filter_fields': [ignore_missing],
             'filter_values': [ignore_missing],
             'fields': [ignore_missing],
-            'sizex': [ignore_missing, int],
-            'sizey': [ignore_missing, int],
             'orientation': [ignore_missing],
         }
 
@@ -193,22 +191,10 @@ class BasicGrid(p.SingletonPlugin):
         resource_view = data_dict['resource_view']
 
         self._filter_fields_and_values_as_list(resource_view)
-        if resource_view.get('sizex'):
-            resource_view['sizex'] = int(resource_view['sizex'])
-        if resource_view.get('sizex'):
-            resource_view['sizey'] = int(resource_view['sizey'])
-
-        sizesx = [{'value': 2, 'text': 'Small'},
-                  {'value': 3, 'text': 'Medium'},
-                  {'value': 4, 'text': 'Large'},
-                  {'value': 6, 'text': 'Very Large'}]
-        sizesy = [{'value': 2, 'text': 'Small'},
-                  {'value': 4, 'text': 'Medium'},
-                  {'value': 6, 'text': 'Large'}]
 
         orientations = [{'value': 'horizontal'}, {'value': 'vertical'}]
 
-        return {'fields': fields, 'sizesx': sizesx, 'sizesy': sizesy, 'orientations': orientations}
+        return {'fields': fields, 'orientations': orientations}
 
     def _filter_fields_and_values_as_list(self, resource_view):
         if 'filter_fields' in resource_view:

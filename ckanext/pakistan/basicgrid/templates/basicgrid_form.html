@@ -64,12 +64,6 @@
   }}
 
   {{
-      form.select('sizex', 'sizex-field', label=_('Size X'), selected=(resource_view.sizex or 3), options=sizesx)
-  }}
-  {{
-      form.select('sizey', 'sizey-field', label=_('Size Y'), selected=(resource_view.sizey or 3), options=sizesy)
-  }}
-  {{
       form.select('orientation', 'orientation-field', label=_('Orientation'), selected=(resource_view.orientation or 'horizontal'), options=orientations)
   }}
 

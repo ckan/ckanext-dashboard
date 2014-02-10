@@ -3,7 +3,6 @@
 {% set fields = all_data.fields %}
 {% set records = all_data.records %}
 
-<div style="overflow:auto; width:{{(resource_view.sizex or 2) * 150 - 20}}px; height:{{(resource_view.sizey or 2) * 150 - 95}}px" >
 <table class="table table-striped table-bordered table-condensed">
     {% if resource_view.orientation == 'vertical' %}
         {% for field in fields %}
@@ -29,4 +28,3 @@
         {% endfor %}
     {% endif %}
 </table>
-</div>
