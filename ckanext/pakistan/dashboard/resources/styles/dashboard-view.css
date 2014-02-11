@@ -52,6 +52,7 @@
   left: 0;
   right: 0;
   bottom: 0;
+  overflow: auto;
 }
 .dashboard-view-edit .dashboard-grid .box .box-inner iframe {
   position: absolute;
