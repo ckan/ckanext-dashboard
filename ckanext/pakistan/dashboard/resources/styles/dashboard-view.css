@@ -53,6 +53,18 @@
   right: 0;
   bottom: 0;
   overflow: auto;
+  display: -webkit-box;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+  display: -moz-box;
+  -moz-box-pack: center;
+  -moz-box-align: center;
+  display: -ms-box;
+  -ms-box-pack: center;
+  -ms-box-align: center;
+  display: box;
+  box-pack: center;
+  box-align: center;
 }
 .dashboard-view-edit .dashboard-grid .box .box-inner iframe {
   position: absolute;
