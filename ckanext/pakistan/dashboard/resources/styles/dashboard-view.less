@@ -1,4 +1,5 @@
 @preview-holder: #FFFEE6;
+@box-header-size: 75px;
 
 .dashboard-grid {
   margin: 10px -10px;
@@ -49,6 +50,20 @@
       &:hover {
         border-color: #005d7a;
         box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.05);
+      }
+      .box-inner {
+        position: absolute;
+        top: @box-header-size;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        iframe {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+        }
       }
     }
     .preview-holder {
