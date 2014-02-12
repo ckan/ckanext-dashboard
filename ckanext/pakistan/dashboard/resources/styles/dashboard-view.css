@@ -3,6 +3,21 @@
   padding: 0;
   list-style-type: none;
 }
+.dashboard-grid .box-inner {
+  position: absolute;
+  top: 75px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+}
+.dashboard-grid .box-inner iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
 .dashboard-grid li.box {
   position: absolute;
   margin: 0;
@@ -45,33 +60,6 @@
 .dashboard-view-edit .dashboard-grid .box:hover {
   border-color: #005d7a;
   box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.05);
-}
-.dashboard-view-edit .dashboard-grid .box .box-inner {
-  position: absolute;
-  top: 75px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: auto;
-  display: -webkit-box;
-  -webkit-box-pack: center;
-  -webkit-box-align: center;
-  display: -moz-box;
-  -moz-box-pack: center;
-  -moz-box-align: center;
-  display: -ms-box;
-  -ms-box-pack: center;
-  -ms-box-align: center;
-  display: box;
-  box-pack: center;
-  box-align: center;
-}
-.dashboard-view-edit .dashboard-grid .box .box-inner iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
 }
 .dashboard-view-edit .dashboard-grid .preview-holder {
   position: absolute;
