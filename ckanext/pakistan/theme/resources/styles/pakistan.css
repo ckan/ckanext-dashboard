@@ -642,6 +642,7 @@ a.tag:hover {
 .attribution {
   float: right;
   width: auto;
+  padding-top: 26px;
 }
 .attribution small {
   display: inline-block;
