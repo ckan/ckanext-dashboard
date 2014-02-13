@@ -846,9 +846,6 @@ div.notes {
 .view-list li .arrow {
   border-top-color: #57a3ea;
 }
-.dashboard-grid li.box {
-  background-color: #ffffff;
-}
 .dashboard-grid li.box .module-heading {
   padding-top: 0;
   height: 70px;
@@ -857,10 +854,28 @@ div.notes {
   font-size: 22px;
   font-weight: 500;
 }
+/* add borders */
+.dashboard-view {
+  overflow: hidden;
+}
+.dashboard-grid li.box:before {
+  display: block;
+  content: '';
+  position: absolute;
+  top: -11px;
+  right: -10px;
+  bottom: -10px;
+  left: -11px;
+  z-index: -1;
+  border: solid 1px #DDDDDD;
+}
+.dashboard-view-edit .dashboard-grid .box:hover:before {
+  border: solid 5px #fbba19;
+}
 .dashboard-view-edit .dashboard-grid .box:hover {
-  -webkit-box-shadow: 0 0 0 5px rgba(251, 186, 25, 0.5);
-  -moz-box-shadow: 0 0 0 5px rgba(251, 186, 25, 0.5);
-  box-shadow: 0 0 0 5px rgba(251, 186, 25, 0.5);
+  -webkit-box-shadow: 0 0 0 5px #ffffff;
+  -moz-box-shadow: 0 0 0 5px #ffffff;
+  box-shadow: 0 0 0 5px #ffffff;
 }
 /* Pages
    ====================================================== */
