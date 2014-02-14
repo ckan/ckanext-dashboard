@@ -14,6 +14,12 @@
       {% endfor %}
     </ul>
   </div>
+
+  <div class="btn-group pull-right control-small">
+    <input id="dashboard-view-add-url-input" class="input-button" name='added_view_id' value="" placeholder="URL of view">
+    <a id="dashboard-view-add-url-button" href="#" class="btn btn-primary"> {{ _('Add widget from url') }} </a>
+  </div>
+
   {% snippet "snippets/dashboard_views_list.html", views=current_dashboard, can_edit=true %}
   <input type="hidden" name="json" value="{{ data.get('json', []) }}">
 </div>

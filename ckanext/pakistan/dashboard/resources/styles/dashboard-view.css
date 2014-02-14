@@ -51,8 +51,10 @@
 .dashboard-view-edit .module {
   margin-bottom: 0;
 }
-.dashboard-view-edit button[name="preview"] {
-  display: none;
+.dashboard-view-edit .input-button {
+  height: 24px;
+  left: 3px;
+  position: relative;
 }
 .dashboard-view-edit .dashboard-grid .box {
   cursor: move;

@@ -7,6 +7,7 @@ import ckan.lib.helpers as helpers
 import json
 import collections
 ignore_empty = toolkit.get_validator('ignore_empty')
+ignore = toolkit.get_validator('ignore')
 not_empty = toolkit.get_validator('not_empty')
 ignore_missing = toolkit.get_validator('ignore_missing')
 aslist = toolkit.aslist
@@ -74,7 +75,8 @@ class DashboardView(p.SingletonPlugin):
                 'title': 'Dashboard',
                 'icon': 'dashboard',
                 'iframed': False,
-                'schema': {'json': [ignore_empty, unicode]},
+                'schema': {'json': [ignore_empty, unicode],
+                           'added_view_id': [ignore]},
                 'preview_enabled': False,
                 'full_page_edit': True,
                 }
@@ -113,11 +115,14 @@ class DashboardView(p.SingletonPlugin):
 
         ##copy dashboard here so we can remove any items if the resource_view got deleted
         for view in current_dashboard[:]:
-            # override view size from what is serialized to default of view
             try:
                 resource_view = toolkit.get_action('resource_view_show')(context, view)
             except toolkit.ObjectNotFound:
                 ##skip any deleted views, next save should remove them properely
+                current_dashboard.remove(view)
+                continue
+            if resource_view['view_type'] == 'dashboard':
+                ## do not allow dashboards in dashboards as that can lead infinate loop
                 current_dashboard.remove(view)
                 continue
 

@@ -13,6 +13,7 @@ this.ckan.module('dashboard-view-edit', function ($, _) {
 
       $('#dashboard-view-edit-new a').on('click', this._add);
       $('.dashboard-grid .btn-danger', this.el).on('click', this._remove);
+      $('#dashboard-view-add-url-button').on('click', this._add_from_url)
 
       this.gridster = $('.dashboard-grid', this.el)
         .gridster({
@@ -55,6 +56,17 @@ this.ckan.module('dashboard-view-edit', function ($, _) {
       var widget = $(e.target).parents('.box');
       this.gridster.remove_widget(widget);
       this._serialize();
+    },
+
+    _add_from_url: function (e) {
+      e.preventDefault();
+      var view_url = $(e.target).siblings().val().trim();
+      var view_id = view_url.substr(view_url.length-36, 36);
+      template = '<li id="' + view_id + '"></li>'
+      this.gridster.add_widget(template, 2, 2);
+      this._serialize();
+      $(this.el.parent()).find('[name="preview"]').click()
+
     },
 
     _serialize: function () {
