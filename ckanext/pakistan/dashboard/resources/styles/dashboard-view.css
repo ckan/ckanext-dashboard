@@ -48,6 +48,33 @@
   top: 5px;
   right: 5px;
 }
+.dashboard-grid li.box .box-inner {
+  position: absolute;
+  top: 75px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+  display: -webkit-box;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+  display: -moz-box;
+  -moz-box-pack: center;
+  -moz-box-align: center;
+  display: -ms-box;
+  -ms-box-pack: center;
+  -ms-box-align: center;
+  display: box;
+  box-pack: center;
+  box-align: center;
+}
+.dashboard-grid li.box .box-inner iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
 .dashboard-view-edit .module {
   margin-bottom: 0;
 }
