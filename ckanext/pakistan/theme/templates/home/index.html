@@ -28,31 +28,13 @@
   <div class="container">
     <h2>{% trans %}Explore by{% endtrans %}</h2>
     <div class="row">
+      {% for homepage_page in  h.get_homepage_icons()  %}
+         <div class="span3">
+             <a class="category-link" href="{{ h.url_for(controller='ckanext.pages.controller:PagesController', action='pages_show', page='/'+homepage_page.name) }}"><i class="{{ homepage_page.icon }}"></i>{{homepage_page.category}}</a>
+         </div>
+      {% endfor %}
       <div class="span3">
-        <a class="category-link" href="#"><i class="icon-book"></i>Literacy</a>
-      </div>
-      <div class="span3">
-        <a class="category-link" href="#"><i class="icon-group"></i>Attendance</a>
-      </div>
-      <div class="span3">
-        <a class="category-link" href="#"><i class="icon-user"></i>Teachers</a>
-      </div>
-      <div class="span3">
-        <a class="category-link" href="#"><i class="icon-bar-chart"></i>Ratios</a>
-      </div>
-    </div>
-    <div class="row">
-      <div class="span3">
-        <a class="category-link" href="#"><i class="icon-star"></i>Quality</a>
-      </div>
-      <div class="span3">
-        <a class="category-link" href="#"><i class="icon-check"></i>Facilities</a>
-      </div>
-      <div class="span3">
-        <a class="category-link" href="#"><i class="icon-money"></i>Finance</a>
-      </div>
-      <div class="span3">
-        <a class="category-link alt" href="#"><i class="icon-map-marker"></i>Location</a>
+         <a class="category-link alt" href="#"><i class="icon-map-marker"></i>Location</a>
       </div>
     </div>
     <h2>{% trans %}Latest News{% endtrans %}</h2>
