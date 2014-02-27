@@ -1,0 +1,31 @@
+{% import 'macros/form.html' as form %}
+{% extends 'ckanext_pages/base_form.html' %}
+
+{% block extra_pages_form %}
+  {{ form.input('category', id='field-category', label=_('Category'), placeholder=_('Education'), value=data.category, error=errors.category, classes=[]) }}
+
+  <div class="control-group">
+    <label for="field-icon" class="control-label">{{ _('Homepage Icon') }}</label>
+    <div class="controls">
+      <select id="field-icon" name="icon" data-module="autocomplete">
+          {% for option in h.icon_list() %}
+             <option value="{{ option[0] }}" {% if option[0] == data.icon %}selected="selected"{% endif %}>{{ option[1] }}</option>
+          {% endfor %}
+      </select>
+      <br>
+      <small> Icon list availible <a href="http://fontawesome.io/3.2.1/icons/" target="_blank"> here. </a> </small>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label for="field-homepage_order" class="control-label">{{ _('Homepage Order') }}</label>
+    <div class="controls">
+      <select id="field-homepage_order" name="homepage_order">
+          {% for option in h.homepage_order() %}
+             <option value="{{ option[0] }}" {% if option[0] == data.homepage_order %}selected="selected"{% endif %}>{{ option[1] }}</option>
+          {% endfor %}
+      </select>
+    </div>
+  </div>
+
+{% endblock extra_pages_form %}
