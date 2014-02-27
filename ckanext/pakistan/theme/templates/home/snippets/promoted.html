@@ -1,14 +1,14 @@
 {% set intro = g.site_intro_text %}
 
 <div class="box">
-  {% if intro %}
-    {{ h.render_markdown(intro) }}
-  {% else %}
-    <h1 class="page-heading">
+  <div class="page-heading">
+    {% if intro %}
+      {{ h.render_markdown(intro) }}
+    {% else %}
       {% trans %}This is a nice introductory paragraph about CKAN or the site
       in general. We don't have any copy to go here yet but soon we will
       {% endtrans %}
-    </h1>
-  {% endif %}
+    {% endif %}
+  </div>
 </div>
 <a class="btn btn-info btn-large"><i class="icon-chevron-right"></i>Lorem ipsum</a>

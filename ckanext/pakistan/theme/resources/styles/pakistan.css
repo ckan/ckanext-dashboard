@@ -671,9 +671,17 @@ a.tag:hover {
   position: absolute;
   bottom: 35px;
 }
-.homepage .hero h1 {
+.homepage .hero .page-heading {
   margin: 0;
   padding: 25px 35px;
+  font-size: 50px;
+  line-height: 53px;
+  text-transform: uppercase;
+  font-family: league_gothic, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+  font-weight: normal;
+}
+.homepage .hero .page-heading *:last-child {
+  margin-bottom: 0;
 }
 .homepage .hero:after {
   display: none;
