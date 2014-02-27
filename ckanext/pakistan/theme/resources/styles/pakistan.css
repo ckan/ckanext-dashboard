@@ -735,7 +735,6 @@ a.tag:hover {
 }
 .latest-posts .blog-title {
   display: block;
-  min-height: 110px;
   color: #000000;
   font-size: 22px;
   line-height: 26px;
