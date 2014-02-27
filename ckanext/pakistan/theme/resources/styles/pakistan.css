@@ -30,6 +30,11 @@ h2 {
   font-size: 32px;
   text-transform: uppercase;
 }
+blockquote p {
+  font-weight: inherit;
+  line-height: inherit;
+  margin-bottom: 10px;
+}
 select,
 textarea,
 input[type="text"],
