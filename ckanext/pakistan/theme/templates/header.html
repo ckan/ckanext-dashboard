@@ -8,3 +8,12 @@
     {% if g.site_description %}<h2 class="tagline">{{ g.site_description }}</h2>{% endif %}
   {% endif %}
 {% endblock %}
+
+{% block header_site_navigation_tabs %}
+  {{ h.build_nav_main(
+    ('search', _('Datasets')),
+    ('blog_index', _('Latest')),
+    ('group_index', _('Groups')),
+    ('about', _('About'))
+  ) }}
+{% endblock %}

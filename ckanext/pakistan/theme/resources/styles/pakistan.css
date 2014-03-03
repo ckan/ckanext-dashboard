@@ -456,6 +456,9 @@ a.tag:hover {
 .masthead .navigation .nav-pills li.active a {
   background-color: #fbba19;
 }
+.masthead .navigation .nav-pills i {
+  display: none;
+}
 .masthead .site-search {
   margin: 0;
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAD0lEQVQImWNgwARStBAAABpPAIPQzAGMAAAAAElFTkSuQmCC");
