@@ -198,6 +198,19 @@ class DashboardView(p.SingletonPlugin):
         return {'available_views': resource_views,
                 'current_dashboard': current_dashboard}
 
+def convert_to_string(value):
+    if isinstance(value, list):
+        return ','.join(value)
+    return value
+
+def validate_fields(value, context):
+    resource = {"id": context['resource'].id}
+    allowed_fields = set(field['id'] for field in _get_fields(resource))
+    for field in value.split(','):
+        if field not in allowed_fields:
+            raise toolkit.Invalid("Field {field} not in table".format(field=field))
+    return value
+
 class BasicGrid(p.SingletonPlugin):
 
     p.implements(p.IConfigurer, inherit=True)
@@ -216,18 +229,18 @@ class BasicGrid(p.SingletonPlugin):
         config['extra_template_paths'] = ','.join([template_dir,
                 config.get('extra_template_paths', '')])
 
-        #toolkit.add_resource('basicgrid/resources', 'basicgrid')
+        toolkit.add_resource('basicgrid/resources', 'basicgrid')
 
     def info(self):
         schema = {
             'filter_fields': [ignore_missing],
             'filter_values': [ignore_missing],
-            'fields': [ignore_missing],
+            'fields': [ignore_missing, convert_to_string, validate_fields, unicode],
             'orientation': [ignore_missing],
         }
 
         return {'name': 'basicgrid',
-                'title': 'Grid',
+                'title': 'Basic Grid',
                 'icon': 'table',
                 'iframed': False,
                 'schema': schema,
@@ -248,10 +261,15 @@ class BasicGrid(p.SingletonPlugin):
         resource_view = data_dict['resource_view']
 
         self._filter_fields_and_values_as_list(resource_view)
+        field_selection = json.dumps(
+            [{"id": field['value'], "text": field['value']} for field in fields]
+        )
 
         orientations = [{'value': 'horizontal'}, {'value': 'vertical'}]
 
-        return {'fields': fields, 'orientations': orientations}
+        return {'fields': fields,
+                'field_selection': field_selection,
+                'orientations': orientations}
 
     def _filter_fields_and_values_as_list(self, resource_view):
         if 'filter_fields' in resource_view:
@@ -261,8 +279,7 @@ class BasicGrid(p.SingletonPlugin):
             filter_values = aslist(resource_view['filter_values'])
             resource_view['filter_values'] = filter_values
         if 'fields' in resource_view:
-            fields = aslist(resource_view['fields'])
-            resource_view['fields'] = fields
+            resource_view['fields'] = convert_to_string(resource_view['fields'])
 
 
 def _get_fields_without_id(resource):
@@ -305,9 +322,8 @@ def _view_data(resource_view):
     if filters:
         data['filters'] = dict(filters)
 
-    fields = aslist(resource_view.get('fields', []))
-    if fields:
-        data['fields'] = fields
+    fields = resource_view.get('fields')
+    data['fields'] = convert_to_string(fields).split(',')
 
     result = p.toolkit.get_action('datastore_search')({}, data)
     return result
