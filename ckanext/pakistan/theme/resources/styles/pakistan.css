@@ -717,7 +717,7 @@ a.tag:hover {
 .category-link:hover i {
   background-color: #dd9f04;
 }
-.category-link.alt i {
+.category-link i.icon-map-marker {
   background-color: #57a3ea;
 }
 .category-link.alt:hover i {
