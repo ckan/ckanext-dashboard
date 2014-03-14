@@ -53,6 +53,7 @@
   data-module-filters-selector = ".basicCharts-filters"
   data-module-add-filter-selector = ".basicCharts-addFilter"
   data-module-remove-filter-selector = ".basicCharts-removeFilter"
+  data-module-filter-values = "{{ h.dump_json(h.get_filter_values(resource)) }}"
   >
   {{
       filtersInputs('filters', 'filter_fields', 'filter_values',

@@ -235,7 +235,7 @@ class BasicGrid(p.SingletonPlugin):
         schema = {
             'filter_fields': [ignore_missing],
             'filter_values': [ignore_missing],
-            'fields': [ignore_missing, convert_to_string, validate_fields, unicode],
+            'fields': [ignore_missing, ignore_empty, convert_to_string, validate_fields, unicode],
             'orientation': [ignore_missing],
         }
 
@@ -273,11 +273,11 @@ class BasicGrid(p.SingletonPlugin):
 
     def _filter_fields_and_values_as_list(self, resource_view):
         if 'filter_fields' in resource_view:
-            filter_fields = aslist(resource_view['filter_fields'])
-            resource_view['filter_fields'] = filter_fields
+            if isinstance(resource_view['filter_fields'], basestring):
+                resource_view['filter_fields'] = [resource_view['filter_fields']]
         if 'filter_values' in resource_view:
-            filter_values = aslist(resource_view['filter_values'])
-            resource_view['filter_values'] = filter_values
+            if isinstance(resource_view['filter_values'], basestring):
+                resource_view['filter_values'] = [resource_view['filter_values']]
         if 'fields' in resource_view:
             resource_view['fields'] = convert_to_string(resource_view['fields'])
 
@@ -323,7 +323,8 @@ def _view_data(resource_view):
         data['filters'] = dict(filters)
 
     fields = resource_view.get('fields')
-    data['fields'] = convert_to_string(fields).split(',')
+    if fields:
+        data['fields'] = convert_to_string(fields).split(',')
 
     result = p.toolkit.get_action('datastore_search')({}, data)
     return result
