@@ -717,7 +717,7 @@ a.tag:hover {
 .category-link:hover i {
   background-color: #dd9f04;
 }
-.category-link.alt i {
+.category-link i.icon-map-marker {
   background-color: #57a3ea;
 }
 .category-link.alt:hover i {
@@ -922,4 +922,13 @@ div.notes {
 .blog .secondary .module-heading {
   visibility: hidden;
   padding: 0;
+}
+.page-list-item .image {
+  width: 220px;
+  /* override hack in pages extension */
+
+}
+.page-list-item h3 a {
+  text-transform: uppercase;
+  font-size: 22px;
 }
