@@ -1,5 +1,6 @@
 {% import 'macros/form.html' as form %}
 {% resource 'basiccharts/form' %}
+{% resource 'basicgrid/main' %}
 
 {% macro filtersInputs(name, selectName, inputName, label='', options='', error='', filters={}, classes=[], attrs={}, is_required=false) %}
   {% set classes = (classes|list) %}
@@ -52,16 +53,14 @@
   data-module-filters-selector = ".basicCharts-filters"
   data-module-add-filter-selector = ".basicCharts-addFilter"
   data-module-remove-filter-selector = ".basicCharts-removeFilter"
+  data-module-filter-values = "{{ h.dump_json(h.get_filter_values(resource)) }}"
   >
   {{
       filtersInputs('filters', 'filter_fields', 'filter_values',
           label=_('Filters'), options=fields, filters=filters, classes=["control-filters"])
   }}
 
-  {{
-      selectMulti('fields', 'fields-field', label=_('Fields'), selected=resource_view.fields, classes=["control-full"],
-      options=fields, attrs={'data-module':'autocomplete', 'multiple': 'True', 'data-placeholder': _('Leave empty for all fields')})
-  }}
+  {{ form.input('fields', id='field-fields', label=_('Fields'), value=data.fields, error=errors.fields, classes=['control-full'], attrs={'hidden': true, 'data-module': 'basicgrid-multiselect', 'data-module-fields': field_selection }) }}
 
   {{
       form.select('orientation', 'orientation-field', label=_('Orientation'), selected=(resource_view.orientation or 'horizontal'), options=orientations)
