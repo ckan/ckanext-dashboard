@@ -673,11 +673,6 @@ a.tag:hover {
   background-image: url(../img/home-banner.jpg);
   background-position: center center;
   background-size: cover;
-  min-height: 410px;
-}
-.homepage .hero .container .row1 {
-  position: absolute;
-  bottom: 35px;
 }
 .homepage .hero .page-heading {
   margin: 0;
@@ -776,6 +771,15 @@ a.tag:hover {
   border-left: solid 1px #cccccc;
   border-right: solid 1px #cccccc;
   z-index: -1;
+}
+@media screen and (min-height: 768px) {
+  .homepage .hero {
+    min-height: 410px;
+  }
+  .homepage .hero .container .row1 {
+    position: absolute;
+    bottom: 35px;
+  }
 }
 /* Search
    ====================================================== */
