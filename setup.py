@@ -28,6 +28,5 @@ setup(
         # Add plugins here
     pakistan_theme=ckanext.pakistan.plugin:PakistanCustomizations
     dashboard_preview=ckanext.pakistan.plugin:DashboardView
-    basic_grid=ckanext.pakistan.plugin:BasicGrid
         """,
 )
