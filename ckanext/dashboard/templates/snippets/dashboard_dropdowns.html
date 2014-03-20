@@ -1,0 +1,16 @@
+
+{% if current_dropdown_values %}
+   <div class="clearfix">
+       {% for filter, current_values in current_dropdown_values.items() %}
+       {# check to see if there are dropdown values for this filter otherwise do not display it #}
+          {% if dropdown_values.get(filter) %}
+              <div class="dashboard-dropdown-container">
+                  {{ field_label_mapping[filter] }}:
+                  {% for value in current_values %}
+                     <input name="{{filter}}" value="{{value}}" {{ extra_params }} type="hidden" data-module="dashboard-dropdown" data-module-values="{{ h.dump_json(dropdown_values[filter]) }}">
+                  {% endfor %}
+              </div>
+          {% endif %}
+       {% endfor %}
+   </div>
+{% endif %}

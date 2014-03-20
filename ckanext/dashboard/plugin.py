@@ -3,6 +3,7 @@ import ckan.plugins as p
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.helpers as helpers
 import json
+import collections
 ignore_empty = toolkit.get_validator('ignore_empty')
 ignore = toolkit.get_validator('ignore')
 not_empty = toolkit.get_validator('not_empty')
@@ -40,7 +41,10 @@ class DashboardView(p.SingletonPlugin):
                 'icon': 'dashboard',
                 'iframed': False,
                 'schema': {'json': [ignore_empty, unicode],
-                           'added_view_id': [ignore]},
+                           'added_view_id': [ignore],
+                           'user_filter_names': [ignore_missing],
+                           'user_filter_fields': [ignore_missing]
+                          },
                 'preview_enabled': False,
                 'full_page_edit': True,
                 }
@@ -113,5 +117,121 @@ class DashboardView(p.SingletonPlugin):
                 package_cache[view['package_id']] = package
             view['package'] = package
 
+        resource = data_dict['resource']
+        resource_view = data_dict['resource_view']
+        resource_view = self._filter_fields_and_values_as_list(resource_view)
+
+        fields = _get_fields_without_id(resource)
+        dropdown_values = get_filter_values(resource)
+
+        field_label_mapping = self._get_field_to_label_mapping(resource_view)
+        current_dropdown_values = self._get_dropdown_values(resource_view)
+
         return {'available_views': resource_views,
-                'current_dashboard': current_dashboard}
+                'current_dashboard': current_dashboard,
+                'fields': fields,
+                'dropdown_values': dropdown_values,
+                'field_label_mapping': field_label_mapping,
+                'current_dropdown_values': current_dropdown_values}
+
+    def _get_field_to_label_mapping(self, resource_view):
+        field_name_mapping = {}
+        for field, name in zip(resource_view['user_filter_fields'],
+                               resource_view['user_filter_names']):
+            if name:
+                field_name_mapping[field] = name
+            else:
+                if name not in field_name_mapping:
+                    field_name_mapping[field] = field
+
+        return field_name_mapping
+
+    def _get_dropdown_values(self, resource_view):
+
+        # first we pad out the values with the filters defined in the
+        # dashboard form.
+        current_dropdown_values = {}
+        for field in resource_view['user_filter_fields']:
+            if field in current_dropdown_values:
+                current_dropdown_values[field].append('')
+            else:
+                current_dropdown_values[field] = ['']
+
+        # then we actually add the data from the url.
+        for field, values in parse_filter_params().items():
+            # do not show dropdowns for fields not defined in data
+            if field not in resource_view['user_filter_fields']:
+                continue
+            for num, value in enumerate(values):
+                try:
+                    current_dropdown_values[field][num] = value
+                except IndexError:
+                    # extend the data if the parameters have more than
+                    # what is defined in the form.
+                    current_dropdown_values[field].append(value)
+
+        return current_dropdown_values
+
+    def _filter_fields_and_values_as_list(self, resource_view):
+        filter_fields = resource_view.get('user_filter_fields', [])
+        filter_values = resource_view.get('user_filter_names', [])
+
+        if isinstance(filter_fields, basestring):
+            resource_view['user_filter_fields'] = [filter_fields]
+        if isinstance(filter_values, basestring):
+            resource_view['user_filter_names'] = [filter_values]
+
+        return resource_view
+
+
+def parse_filter_params():
+    filters = collections.defaultdict(list)
+    filter_string = dict(p.toolkit.request.GET).get('filters', '')
+    for filter in filter_string.split('|'):
+        if filter.count(':') != 1:
+            continue
+        key, value = filter.split(':')
+        filters[key].append(value)
+    return dict(filters)
+
+def _get_fields_without_id(resource):
+    fields = _get_fields(resource)
+    return [{'value': v['id']} for v in fields if v['id'] != '_id']
+
+def _get_fields(resource):
+    data = {
+        'resource_id': resource['id'],
+        'limit': 0
+    }
+    result = p.toolkit.get_action('datastore_search')({}, data)
+    return result['fields']
+
+def get_filter_values(resource):
+    ''' Tries to get out filter values so they can appear in dropdown list.
+    Leaves input as text box when the table is too big or there are too many
+    distinct values.  Current limits are 5000 rows in table and 500 distict
+    values.'''
+
+    data = {
+        'resource_id': resource['id'],
+        'limit': 5001
+    }
+    result = p.toolkit.get_action('datastore_search')({}, data)
+    # do not try to get filter values if there are too many rows.
+    if len(result.get('records', [])) == 5001:
+        return {}
+
+    filter_values = {}
+    for field in result.get('fields', []):
+        if field['type'] != 'text':
+            continue
+        distinct_values = set()
+        for row in result.get('records', []):
+            distinct_values.add(row[field['id']])
+        # keep as input if there are too many distinct values.
+        if len(distinct_values) > 500:
+            continue
+        filter_values[field['id']] = [{'id': value, 'text': value}
+                                      for value
+                                      in sorted(list(distinct_values))]
+    return filter_values

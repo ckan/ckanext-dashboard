@@ -85,3 +85,8 @@
   z-index: 1;
   border-radius: 3px;
 }
+.dashboard-dropdown-container {
+  float: left;
+  margin-right: 2em;
+  margin-bottom: 10px;
+}

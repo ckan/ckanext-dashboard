@@ -1,3 +1,53 @@
+{% import 'macros/form.html' as form %}
+{% resource 'basiccharts/form' %}
+
+{% macro filtersInputs(name, selectName, inputName, label='', options='', error='', filters={}, classes=[], attrs={}, is_required=false) %}
+  {% set classes = (classes|list) %}
+  {% do classes.append('control-select') %}
+
+  {%- set extra_html = caller() if caller -%}
+  {% call form.input_block(id or name, label or name, error, classes, extra_html=extra_html, is_required=is_required) %}
+  <div class="basicCharts-filters">
+    {% for value in filters['values'] %}
+      {% set field = filters['fields'][loop.index0] %}
+      {{ selectAndInput(selectName, inputName, selectOptions=options, selected=field, inputValue=value, attrs=attrs) }}
+    {% endfor %}
+    </div>
+    <a href="#" class="basicCharts-addFilter">{{ _('Add Filter') }}</a>
+  {% endcall %}
+{% endmacro %}
+
+{% macro selectAndInput(selectName, inputName, selectOptions='', selected='', inputValue='', attrs={}) %}
+  <div>
+  <select id="{{ selectName }}" name="{{ selectName }}" {{ form.attributes(attrs) }}>
+    {% for option in selectOptions %}
+      <option value="{{ option.value }}"{% if option.value == selected %} selected{% endif %}>{{ option.text or option.value }}</option>
+    {% endfor %}
+  </select>
+  Display Name (optional):
+  <input type="text" name="{{ inputName }}" value="{{ inputValue }}" />
+  <span title="{{ _('Remove Filter') }}" class="basicCharts-removeFilter icon icon-remove"></span>
+  </div>
+{% endmacro %}
+
+    {% set templateFilterInputs = selectAndInput('user_filter_fields', 'user_filter_names', selectOptions=fields) %}
+    {% set filters = { 'fields': resource_view['user_filter_fields'], 'values': resource_view['user_filter_names'] } %}
+
+    <div
+      data-module = "basiccharts_filters_form"
+      data-module-template-filter-inputs = "{{ h.remove_linebreaks(templateFilterInputs) }}"
+      data-module-filters-selector = ".basicCharts-filters"
+      data-module-add-filter-selector = ".basicCharts-addFilter"
+      data-module-remove-filter-selector = ".basicCharts-removeFilter"
+      >
+      {{
+          filtersInputs('filters', 'user_filter_fields', 'user_filter_names',
+              label=_('Allowed Filters'), options=fields, filters=filters, classes=["control-filters"])
+      }}
+    </div>
+
+
+
 <div class="dashboard-view-edit" data-module="dashboard-view-edit" data-module-size="{{h.dashboard_size()}}">
   <hr>
   <div class="btn-group">
@@ -19,6 +69,10 @@
     <input id="dashboard-view-add-url-input" class="input-button" name='added_view_id' value="" placeholder="URL of view">
     <a id="dashboard-view-add-url-button" href="#" class="btn btn-primary"> {{ _('Add widget from url') }} </a>
   </div>
+
+  <hr>
+
+  {% snippet "snippets/dashboard_dropdowns.html", current_dropdown_values=current_dropdown_values, dropdown_values=dropdown_values, field_label_mapping=field_label_mapping, current_values=current_values, extra_params='disabled' %}
 
   {% snippet "snippets/dashboard_views_list.html", views=current_dashboard, can_edit=true %}
   <input type="hidden" name="json" value="{{ data.get('json', []) }}">

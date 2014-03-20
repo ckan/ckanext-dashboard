@@ -1,3 +1,5 @@
+
+{% snippet "snippets/dashboard_dropdowns.html", current_dropdown_values=current_dropdown_values, dropdown_values=dropdown_values, field_label_mapping=field_label_mapping, current_values=current_values  %}
 <div class="dashboard-view" data-module="dashboard-view" data-module-size="{{h.dashboard_size()}}">
   {% snippet "snippets/dashboard_views_list.html", views=current_dashboard %}
 </div>
