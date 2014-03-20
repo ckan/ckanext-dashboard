@@ -141,7 +141,7 @@ class DashboardView(p.SingletonPlugin):
             if name:
                 field_name_mapping[field] = name
             else:
-                if name not in field_name_mapping:
+                if field not in field_name_mapping:
                     field_name_mapping[field] = field
 
         return field_name_mapping
