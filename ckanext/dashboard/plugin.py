@@ -135,9 +135,10 @@ class DashboardView(p.SingletonPlugin):
                 'current_dropdown_values': current_dropdown_values}
 
     def _get_field_to_label_mapping(self, resource_view):
+        user_filter_fields = resource_view.get('user_filter_fields', [])
+        user_filter_names = resource_view.get('user_filter_names', [])
         field_name_mapping = {}
-        for field, name in zip(resource_view['user_filter_fields'],
-                               resource_view['user_filter_names']):
+        for field, name in zip(user_filter_fields, user_filter_names):
             if name:
                 field_name_mapping[field] = name
             else:
@@ -151,7 +152,7 @@ class DashboardView(p.SingletonPlugin):
         # first we pad out the values with the filters defined in the
         # dashboard form.
         current_dropdown_values = {}
-        for field in resource_view['user_filter_fields']:
+        for field in resource_view.get('user_filter_fields', []):
             if field in current_dropdown_values:
                 current_dropdown_values[field].append('')
             else:
