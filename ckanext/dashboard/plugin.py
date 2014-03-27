@@ -119,7 +119,7 @@ class DashboardView(p.SingletonPlugin):
 
         resource = data_dict['resource']
         resource_view = data_dict['resource_view']
-        resource_view = self._filter_fields_and_values_as_list(resource_view)
+        resource_view = self._filter_fields_and_names_as_list(resource_view)
 
         fields = _get_fields_without_id(resource)
         dropdown_values = get_filter_values(resource)
@@ -135,8 +135,8 @@ class DashboardView(p.SingletonPlugin):
                 'current_dropdown_values': current_dropdown_values}
 
     def _get_field_to_label_mapping(self, resource_view):
-        user_filter_fields = resource_view.get('user_filter_fields', [])
-        user_filter_names = resource_view.get('user_filter_names', [])
+        user_filter_fields = resource_view['user_filter_fields']
+        user_filter_names = resource_view['user_filter_names']
         field_name_mapping = {}
         for field, name in zip(user_filter_fields, user_filter_names):
             if name:
@@ -148,11 +148,12 @@ class DashboardView(p.SingletonPlugin):
         return field_name_mapping
 
     def _get_dropdown_values(self, resource_view):
+        user_filter_fields = resource_view['user_filter_fields']:
 
         # first we pad out the values with the filters defined in the
         # dashboard form.
         current_dropdown_values = {}
-        for field in resource_view.get('user_filter_fields', []):
+        for field in user_filter_fields
             if field in current_dropdown_values:
                 current_dropdown_values[field].append('')
             else:
@@ -161,7 +162,7 @@ class DashboardView(p.SingletonPlugin):
         # then we actually add the data from the url.
         for field, values in parse_filter_params().items():
             # do not show dropdowns for fields not defined in data
-            if field not in resource_view['user_filter_fields']:
+            if field not in user_filter_fields:
                 continue
             for num, value in enumerate(values):
                 try:
@@ -173,14 +174,22 @@ class DashboardView(p.SingletonPlugin):
 
         return current_dropdown_values
 
-    def _filter_fields_and_values_as_list(self, resource_view):
-        filter_fields = resource_view.get('user_filter_fields', [])
-        filter_values = resource_view.get('user_filter_names', [])
+    def _filter_fields_and_names_as_list(self, resource_view):
+        filter_fields = resource_view.get('user_filter_fields')
+        filter_names = resource_view.get('user_filter_names')
 
-        if isinstance(filter_fields, basestring):
-            resource_view['user_filter_fields'] = [filter_fields]
-        if isinstance(filter_values, basestring):
-            resource_view['user_filter_names'] = [filter_values]
+        if not filter_fields:
+            filter_fields = []
+        elif isinstance(filter_fields, basestring):
+            filter_fields = [filter_fields]
+
+        if not filter_names:
+            filter_names = []
+        elif isinstance(filter_names, basestring):
+            filter_names = [filter_names]
+
+        resource_view['user_filter_fields'] = filter_fields
+        resource_view['user_filter_names'] = filter_names
 
         return resource_view
 
