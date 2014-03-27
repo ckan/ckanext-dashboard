@@ -153,7 +153,7 @@ class DashboardView(p.SingletonPlugin):
         # first we pad out the values with the filters defined in the
         # dashboard form.
         current_dropdown_values = {}
-        for field in user_filter_fields
+        for field in user_filter_fields:
             if field in current_dropdown_values:
                 current_dropdown_values[field].append('')
             else:
