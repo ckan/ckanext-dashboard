@@ -148,7 +148,7 @@ class DashboardView(p.SingletonPlugin):
         return field_name_mapping
 
     def _get_dropdown_values(self, resource_view):
-        user_filter_fields = resource_view['user_filter_fields']:
+        user_filter_fields = resource_view['user_filter_fields']
 
         # first we pad out the values with the filters defined in the
         # dashboard form.
