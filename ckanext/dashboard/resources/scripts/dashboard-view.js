@@ -107,7 +107,7 @@ this.ckan.module('dashboard-dropdown', {
       for (var i = 0; i < values.length; i++) {
          filters.push(filter + ':' + values[i]);
       }
-    })
+    });
     return filters.join('|');
   },
   parseRouteFilters: function (routeParams) {
@@ -131,28 +131,28 @@ this.ckan.module('dashboard-dropdown', {
     return filters;
   },
   initialize: function () {
-    var self = this
+    var self = this;
     this.el.on("change", function(e) {
-      var name = $(e.target).attr("name")
-      var inputs = $(e.target).parent().children('input')
-      var position = inputs.index(e.target)
+      var name = $(e.target).attr("name");
+      var inputs = $(e.target).parent().children('input');
+      var position = inputs.index(e.target);
 
-      var name = $(e.target).attr("name")
-      var value = $(e.target).val()
+      name = $(e.target).attr("name");
+      var value = $(e.target).val();
 
       var search = location.search.substring(1);
       var params = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
       var routeFilters = self.parseRouteFilters(params);
       if (routeFilters[name]) {
-        routeFilters[name][position] = value
+        routeFilters[name][position] = value;
       } else {
-        routeFilters[name] = [value]
+        routeFilters[name] = [value];
       }
-      var filter_param = self.constructFilterParam(routeFilters)
-      params.filters = filter_param
-      window.location = location.href.split('?')[0] + '?' + $.param(params)
-    })
+      var filter_param = self.constructFilterParam(routeFilters);
+      params.filters = filter_param;
+      window.location = location.href.split('?')[0] + '?' + $.param(params);
+    });
 
-    this.el.select2({data: this.options.values, "width": 200})
+    this.el.select2({data: this.options.values, "width": 200});
   }
 });
