@@ -140,9 +140,8 @@ this.ckan.module('dashboard-dropdown', {
       name = $(e.target).attr("name");
       var value = $(e.target).val();
 
-      var search = location.search.substring(1);
-      var params = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
-      var routeFilters = self.parseRouteFilters(params);
+      var params = location.search.queryStringToJSON();
+      var routeFilters = ckan.views.viewhelpers.filters.get();
       if (routeFilters[name]) {
         routeFilters[name][position] = value;
       } else {
