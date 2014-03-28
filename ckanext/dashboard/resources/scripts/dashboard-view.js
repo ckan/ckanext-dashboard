@@ -110,26 +110,6 @@ this.ckan.module('dashboard-dropdown', {
     });
     return filters.join('|');
   },
-  parseRouteFilters: function (routeParams) {
-    // The filters are in format "field:value|field:value|field:value"
-    if (!routeParams || !routeParams.filters) {
-      return {};
-    }
-
-    var filters = {},
-        fieldValuesStr = decodeURIComponent(routeParams.filters).split("|");
-
-    $.each(fieldValuesStr, function (i, fieldValueStr) {
-      var fieldValue = fieldValueStr.split(":"),
-          field = fieldValue[0],
-          value = fieldValue[1];
-
-      filters[field] = filters[field] || [];
-      filters[field].push(value);
-    });
-
-    return filters;
-  },
   initialize: function () {
     var self = this;
     this.el.on("change", function(e) {
