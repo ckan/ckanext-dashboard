@@ -101,15 +101,6 @@ this.ckan.module('dashboard-dropdown', {
   options: {
     values: {}
   },
-  constructFilterParam: function (routeFilters) {
-    var filters = [];
-    $.each(routeFilters, function(filter, values) {
-      for (var i = 0; i < values.length; i++) {
-         filters.push(filter + ':' + values[i]);
-      }
-    });
-    return filters.join('|');
-  },
   initialize: function () {
     var self = this;
     this.el.on("change", function(e) {
@@ -120,16 +111,15 @@ this.ckan.module('dashboard-dropdown', {
       name = $(e.target).attr("name");
       var value = $(e.target).val();
 
-      var params = location.search.queryStringToJSON();
-      var routeFilters = ckan.views.viewhelpers.filters.get();
-      if (routeFilters[name]) {
-        routeFilters[name][position] = value;
+      var filters = ckan.views.viewhelpers.filters;
+      var filterValues = filters.get(name);
+      var routeFilters = filters.get();
+      if (filterValues) {
+        filterValues[position] = value;
+        filters.set(name, filterValues);
       } else {
-        routeFilters[name] = [value];
+        filters.set(name, value);
       }
-      var filter_param = self.constructFilterParam(routeFilters);
-      params.filters = filter_param;
-      window.location = location.href.split('?')[0] + '?' + $.param(params);
     });
 
     this.el.select2({data: this.options.values, "width": 200});
