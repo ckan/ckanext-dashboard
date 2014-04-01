@@ -86,7 +86,9 @@
   border-radius: 3px;
 }
 .dashboard-dropdown-container {
-  float: left;
-  margin-right: 2em;
-  margin-bottom: 10px;
+  margin-bottom: 1em;
+}
+.dashboard-dropdown-container .dashboard-dropdown-values .select2-container {
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
 }

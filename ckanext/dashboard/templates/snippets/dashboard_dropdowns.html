@@ -6,9 +6,11 @@
           {% if dropdown_values.get(filter) %}
               <div class="dashboard-dropdown-container">
                   {{ field_label_mapping[filter] }}:
+                  <div class="dashboard-dropdown-values">
                   {% for value in current_values %}
                      <input name="{{filter}}" value="{{value}}" {{ extra_params }} type="hidden" data-module="dashboard-dropdown" data-module-values="{{ h.dump_json(dropdown_values[filter]) }}">
                   {% endfor %}
+                  </div>
               </div>
           {% endif %}
        {% endfor %}
