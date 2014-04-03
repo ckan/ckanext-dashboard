@@ -92,3 +92,6 @@
   margin-right: 0.5em;
   margin-bottom: 0.5em;
 }
+.dashboard-dropdown-container .dashboard-dropdown-values .select2-container .select2-search-choice-close {
+  left: auto;
+}

@@ -98,15 +98,12 @@ this.ckan.module('dashboard-view', {
 });
 
 this.ckan.module('dashboard-dropdown', {
-  options: {
-    values: {}
-  },
   initialize: function () {
     var self = this;
     this.el.on("change", function(e) {
       var name = $(e.target).attr("name");
-      var inputs = $(e.target).parent().children('input');
-      var position = inputs.index(e.target);
+      var selects = $(e.target).parent().children('select');
+      var position = selects.index(e.target);
 
       name = $(e.target).attr("name");
       var value = $(e.target).val();
@@ -114,14 +111,24 @@ this.ckan.module('dashboard-dropdown', {
       var filters = ckan.views.viewhelpers.filters;
       var filterValues = filters.get(name);
       var routeFilters = filters.get();
+
       if (filterValues) {
-        filterValues[position] = value;
-        filters.set(name, filterValues);
+        if (value === "") {
+          filters.unset(name, filterValues[position]);
+        } else {
+          filterValues[position] = value;
+          filters.set(name, filterValues);
+        }
       } else {
-        filters.set(name, value);
+        if (value !== "") {
+          filters.set(name, value);
+        }
       }
     });
 
-    this.el.select2({data: this.options.values, "width": 200});
+    this.el.select2({
+      width: 200,
+      allowClear: true
+    });
   }
 });

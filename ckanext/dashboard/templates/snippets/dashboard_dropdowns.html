@@ -8,7 +8,16 @@
                   {{ field_label_mapping[filter] }}:
                   <div class="dashboard-dropdown-values">
                   {% for value in current_values %}
-                     <input name="{{filter}}" value="{{value}}" {{ extra_params }} type="hidden" data-module="dashboard-dropdown" data-module-values="{{ h.dump_json(dropdown_values[filter]) }}">
+
+                  <select name="{{filter}}" data-module="dashboard-dropdown">
+                      <option></option>
+                      {% for dropdown_value in dropdown_values[filter] %}
+                      <option value="{{dropdown_value['id']}}"
+                        {% if dropdown_value['id'] == value %} selected="selected" {% endif %}>
+                          {{dropdown_value['text']}}
+                        </option>
+                      {% endfor %}
+                    </select>
                   {% endfor %}
                   </div>
               </div>
