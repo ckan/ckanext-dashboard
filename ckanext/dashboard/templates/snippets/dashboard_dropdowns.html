@@ -7,18 +7,17 @@
               <div class="dashboard-dropdown-container">
                   {{ field_label_mapping[filter] }}:
                   <div class="dashboard-dropdown-values">
-                  {% for value in current_values %}
-
-                  <select name="{{filter}}" data-module="dashboard-dropdown">
-                      <option></option>
-                      {% for dropdown_value in dropdown_values[filter] %}
-                      <option value="{{dropdown_value['id']}}"
-                        {% if dropdown_value['id'] == value %} selected="selected" {% endif %}>
-                          {{dropdown_value['text']}}
-                        </option>
+                      {% for value in current_values %}
+                          <select name="{{filter}}" data-module="dashboard-dropdown">
+                              <option></option>
+                              {% for dropdown_value in dropdown_values[filter] %}
+                                  <option value="{{dropdown_value['id']}}"
+                                    {% if dropdown_value['id'] == value %} selected="selected" {% endif %}>
+                                    {{dropdown_value['text']}}
+                                  </option>
+                              {% endfor %}
+                          </select>
                       {% endfor %}
-                    </select>
-                  {% endfor %}
                   </div>
               </div>
           {% endif %}
