@@ -179,12 +179,12 @@ class DashboardView(p.SingletonPlugin):
         filter_fields = resource_view.get('user_filter_fields')
         filter_names = resource_view.get('user_filter_names')
 
-        if not filter_fields:
+        if filter_fields is None:
             filter_fields = []
         elif isinstance(filter_fields, basestring):
             filter_fields = [filter_fields]
 
-        if not filter_names:
+        if filter_names is None:
             filter_names = []
         elif isinstance(filter_names, basestring):
             filter_names = [filter_names]
