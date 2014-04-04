@@ -24,7 +24,7 @@
       <option value="{{ option.value }}"{% if option.value == selected %} selected{% endif %}>{{ option.text or option.value }}</option>
     {% endfor %}
   </select>
-  Display Name (optional):
+  {{ _('Label (optional):') }}
   <input type="text" name="{{ inputName }}" value="{{ inputValue }}" />
   <span title="{{ _('Remove Filter') }}" class="basicCharts-removeFilter icon icon-remove"></span>
   </div>
