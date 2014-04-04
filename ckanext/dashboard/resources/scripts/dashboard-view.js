@@ -127,7 +127,6 @@ this.ckan.module('dashboard-dropdown', {
     });
 
     this.el.select2({
-      width: 200,
       allowClear: true
     });
   }
