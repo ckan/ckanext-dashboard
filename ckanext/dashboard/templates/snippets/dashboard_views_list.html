@@ -3,7 +3,10 @@
   <li id={{view.id}} class="box module module-narrow module-shallow" data-row="{{ view.row }}" data-col="{{ view.col }}" data-sizex="{{ view.sizex }}" data-sizey="{{ view.sizey }}" >
       <header class="module-heading">
         <strong>{{ view.title }}</strong>
-        <span class="description">{{ view.description }}<a class="readmore" href="{{h.url_for(controller='package', action='resource_read', id=view.package_id, resource_id=view.resource_id) ~ '?view_id=' ~ view.id}}"> More</a></span>
+        <span class="description">
+          {{ view.description }}
+          <a class="readmore" href="{{h.url_for(controller='package', action='resource_read', id=view.package_id, resource_id=view.resource_id) ~ '?view_id=' ~ view.id}}">{{ _('More') }}</a>
+        </span>
       </header>
       <div class="box-inner">
       {% if not h.resource_view_is_iframed(view) %}
