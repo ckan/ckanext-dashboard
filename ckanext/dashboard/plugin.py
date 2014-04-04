@@ -45,7 +45,7 @@ class DashboardView(p.SingletonPlugin):
                            'user_filter_names': [ignore_missing],
                            'user_filter_fields': [ignore_missing]
                           },
-                'preview_enabled': False,
+                'preview_enabled': True,
                 'full_page_edit': True,
                 }
 

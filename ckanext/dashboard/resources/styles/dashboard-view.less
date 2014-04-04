@@ -1,5 +1,28 @@
+@widget-border-color: #fbba19;
 @preview-holder: #FFFEE6;
 @box-header-size: 75px;
+
+.in-preview {
+  .dashboard-grid {
+    .box {
+      cursor: move;
+      &:hover:before {
+        border: solid 5px @widget-border-color;
+        box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.05);
+      }
+    }
+    .preview-holder {
+      position: absolute;
+      background-color: @preview-holder;
+      border: 1px solid darken(@preview-holder, 10%);
+      z-index: 1;
+      border-radius: 3px;
+    }
+    li.box .remove {
+      display: block;
+    }
+  }
+}
 
 .dashboard-grid {
   margin-left: -10px;
@@ -48,6 +71,7 @@
 			position:absolute;
 			top:5px;
 			right:5px;
+			display: none;
 		}
     .box-inner {
       position: absolute;
@@ -75,22 +99,6 @@
     height: 24px;
     left: 3px;
     position: relative;
-  }
-  .dashboard-grid {
-    .box {
-      cursor: move;
-      &:hover {
-        border-color: #005d7a;
-        box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.05);
-      }
-    }
-    .preview-holder {
-      position: absolute;
-      background-color: @preview-holder;
-      border: 1px solid darken(@preview-holder, 10%);
-      z-index: 1;
-      border-radius: 3px;
-    }
   }
 }
 

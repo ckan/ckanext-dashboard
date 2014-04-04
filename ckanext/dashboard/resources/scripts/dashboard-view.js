@@ -12,10 +12,10 @@ this.ckan.module('dashboard-view-edit', function ($, _) {
       $.proxyAll(this, /_/);
 
       $('#dashboard-view-edit-new a').on('click', this._add);
-      $('.dashboard-grid .btn-danger', this.el).on('click', this._remove);
+      $('.dashboard-grid .btn-danger').on('click', this._remove);
       $('#dashboard-view-add-url-button').on('click', this._add_from_url)
 
-      this.gridster = $('.dashboard-grid', this.el)
+      this.gridster = $('.dashboard-grid')
         .gridster({
           widget_margins: [10, 10],
           widget_base_dimensions: [this.options.size, this.options.size],
@@ -34,7 +34,7 @@ this.ckan.module('dashboard-view-edit', function ($, _) {
         })
         .data('gridster');
 
-      $(".dashboard-grid .module .module-heading", this.el).dotdotdot({
+      $(".dashboard-grid .module .module-heading").dotdotdot({
         // configuration
         after: "a.readmore"
       });
@@ -83,6 +83,12 @@ this.ckan.module('dashboard-view', {
     size: 130,
   },
   initialize: function () {
+    var in_preview = ($('[data-module="dashboard-view-edit"]').length !== 0);
+    if (in_preview) {
+      this.el.addClass('in-preview');
+      return;
+    }
+
     $('.dashboard-grid', this.el).gridster({
       widget_margins: [10, 10],
       widget_base_dimensions: [this.options.size, this.options.size],

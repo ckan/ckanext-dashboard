@@ -70,10 +70,5 @@
     <a id="dashboard-view-add-url-button" href="#" class="btn btn-primary"> {{ _('Add widget from url') }} </a>
   </div>
 
-  <hr>
-
-  {% snippet "snippets/dashboard_dropdowns.html", current_dropdown_values=current_dropdown_values, dropdown_values=dropdown_values, field_label_mapping=field_label_mapping, current_values=current_values, extra_params='disabled' %}
-
-  {% snippet "snippets/dashboard_views_list.html", views=current_dashboard, can_edit=true %}
   <input type="hidden" name="json" value="{{ data.get('json', []) }}">
 </div>

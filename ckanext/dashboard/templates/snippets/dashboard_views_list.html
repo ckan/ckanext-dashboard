@@ -3,7 +3,7 @@
   <li id={{view.id}} class="box module module-narrow module-shallow" data-row="{{ view.row }}" data-col="{{ view.col }}" data-sizex="{{ view.sizex }}" data-sizey="{{ view.sizey }}" >
       <header class="module-heading">
         <strong>{{ view.title }}</strong>
-        <span class="description">{{ view.description }}{% if not can_edit %}<a class="readmore" href="{{h.url_for(controller='package', action='resource_read', id=view.package_id, resource_id=view.resource_id) ~ '?view_id=' ~ view.id}}"> More</a>{% endif %}</span>
+        <span class="description">{{ view.description }}<a class="readmore" href="{{h.url_for(controller='package', action='resource_read', id=view.package_id, resource_id=view.resource_id) ~ '?view_id=' ~ view.id}}"> More</a></span>
       </header>
       <div class="box-inner">
       {% if not h.resource_view_is_iframed(view) %}
@@ -15,9 +15,7 @@
         </iframe>
       {% endif %}
       </div>
-      {% if can_edit %}
-        <a href="{{ view.remove_url }}" class="btn btn-danger btn-small remove">{{ _('Remove') }}</a>
-      {% endif %}
+      <a href="{{ view.remove_url }}" class="btn btn-danger btn-small remove">{{ _('Remove') }}</a>
     </li>
   {% endfor %}
 </ul>
