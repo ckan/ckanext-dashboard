@@ -164,7 +164,8 @@ class DashboardView(p.SingletonPlugin):
             # do not show dropdowns for fields not defined in data
             if field not in user_filter_fields:
                 continue
-            for num, value in enumerate(values):
+            # add empty value in the end, so the user can add more filters
+            for num, value in enumerate(values + ['']):
                 try:
                     current_dropdown_values[field][num] = value
                 except IndexError:
