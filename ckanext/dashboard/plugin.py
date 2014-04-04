@@ -121,7 +121,7 @@ class DashboardView(p.SingletonPlugin):
         resource_view = data_dict['resource_view']
         resource_view = self._filter_fields_and_names_as_list(resource_view)
 
-        fields = _get_fields_without_id(resource)
+        fields = _get_filterable_fields(resource)
         dropdown_values = get_filter_values(resource)
 
         field_label_mapping = self._get_field_to_label_mapping(resource_view)
@@ -205,9 +205,9 @@ def parse_filter_params():
         filters[key].append(value)
     return dict(filters)
 
-def _get_fields_without_id(resource):
+def _get_filterable_fields(resource):
     fields = _get_fields(resource)
-    return [{'value': v['id']} for v in fields if v['id'] != '_id']
+    return [{'value': v['id']} for v in fields if v['type'] == 'text']
 
 def _get_fields(resource):
     data = {
