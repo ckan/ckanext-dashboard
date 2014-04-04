@@ -103,37 +103,42 @@ this.ckan.module('dashboard-view', {
   }
 });
 
-this.ckan.module('dashboard-dropdown', {
-  initialize: function () {
-    var self = this;
-    this.el.on("change", function(e) {
-      var name = $(e.target).attr("name");
-      var selects = $(e.target).parent().children('select');
-      var position = selects.index(e.target);
+this.ckan.module('dashboard-dropdown', function ($) {
+  var in_preview = ($('[data-module="dashboard-view-edit"]').length !== 0);
 
-      name = $(e.target).attr("name");
-      var value = $(e.target).val();
+  return {
+    initialize: function () {
+      var self = this;
+      this.el.on("change", function(e) {
+        var name = $(e.target).attr("name");
+        var selects = $(e.target).parent().children('select');
+        var position = selects.index(e.target);
 
-      var filters = ckan.views.viewhelpers.filters;
-      var filterValues = filters.get(name);
-      var routeFilters = filters.get();
+        name = $(e.target).attr("name");
+        var value = $(e.target).val();
 
-      if (filterValues) {
-        if (value === "") {
-          filters.unset(name, filterValues[position]);
+        var filters = ckan.views.viewhelpers.filters;
+        var filterValues = filters.get(name);
+        var routeFilters = filters.get();
+
+        if (filterValues) {
+          if (value === "") {
+            filters.unset(name, filterValues[position]);
+          } else {
+            filterValues[position] = value;
+            filters.set(name, filterValues);
+          }
         } else {
-          filterValues[position] = value;
-          filters.set(name, filterValues);
+          if (value !== "") {
+            filters.set(name, value);
+          }
         }
-      } else {
-        if (value !== "") {
-          filters.set(name, value);
-        }
-      }
-    });
+      });
 
-    this.el.select2({
-      allowClear: true
-    });
-  }
+      this.el.select2({
+        allowClear: true,
+      });
+      this.el.select2('enable', !in_preview);
+    }
+  };
 });
