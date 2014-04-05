@@ -119,7 +119,7 @@ class DashboardView(p.SingletonPlugin):
 
         resource = data_dict['resource']
         resource_view = data_dict['resource_view']
-        resource_view = self._filter_fields_and_names_as_list(resource_view)
+        resource_view = self._filter_fields_and_names_as_list_without_duplicates(resource_view)
 
         dropdown_values = get_filter_values(resource)
         fields = _get_fields(dropdown_values)
@@ -175,7 +175,7 @@ class DashboardView(p.SingletonPlugin):
 
         return current_dropdown_values
 
-    def _filter_fields_and_names_as_list(self, resource_view):
+    def _filter_fields_and_names_as_list_without_duplicates(self, resource_view):
         filter_fields = resource_view.get('user_filter_fields')
         filter_names = resource_view.get('user_filter_names')
 
@@ -188,6 +188,22 @@ class DashboardView(p.SingletonPlugin):
             filter_names = []
         elif isinstance(filter_names, basestring):
             filter_names = [filter_names]
+
+        resource_view['user_filter_fields'] = filter_fields
+        resource_view['user_filter_names'] = filter_names
+
+        return self._remove_duplicate_filter_fields_and_names(resource_view)
+
+    def _remove_duplicate_filter_fields_and_names(self, resource_view):
+        filter_fields = resource_view['user_filter_fields']
+        filter_names = resource_view['user_filter_names']
+
+        for i, filter_field in enumerate(filter_fields):
+            indices = [i for i, field in enumerate(filter_fields)
+                       if field == filter_field]
+            for index in reversed(indices[1:]):
+                del filter_fields[index]
+                del filter_names[index]
 
         resource_view['user_filter_fields'] = filter_fields
         resource_view['user_filter_names'] = filter_names
