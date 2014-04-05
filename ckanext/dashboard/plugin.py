@@ -225,7 +225,7 @@ def get_filter_values(resource):
 
     filter_values = {}
     for field in result.get('fields', []):
-        if field['type'] != 'text':
+        if field['type'] != 'text' and field['type'] != 'timestamp':
             continue
         distinct_values = set()
         for row in result.get('records', []):
