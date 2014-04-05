@@ -13,7 +13,7 @@ this.ckan.module('dashboard-view-edit', function ($, _) {
 
       $('#dashboard-view-edit-new a').on('click', this._add);
       $('.dashboard-grid .btn-danger').on('click', this._remove);
-      $('#dashboard-view-add-url-button').on('click', this._add_from_url)
+      $('#dashboard-view-add-url-button').on('click', this._add_from_url);
 
       this.gridster = $('.dashboard-grid')
         .gridster({
@@ -29,7 +29,7 @@ this.ckan.module('dashboard-view-edit', function ($, _) {
             stop: this._serialize
           },
           serialize_params: function($w, wgd) {
-            return { col: wgd.col, row: wgd.row, sizex: wgd.size_x, sizey: wgd.size_y, id: $w.attr('id') }
+            return { col: wgd.col, row: wgd.row, sizex: wgd.size_x, sizey: wgd.size_y, id: $w.attr('id') };
           }
         })
         .data('gridster');
@@ -45,10 +45,10 @@ this.ckan.module('dashboard-view-edit', function ($, _) {
     _add: function (e) {
       e.preventDefault();
       var view_id = $(e.target).data('view_id');
-      template = '<li id="' + view_id + '"></li>'
+      template = '<li id="' + view_id + '"></li>';
       this.gridster.add_widget(template, 2, 2);
       this._serialize();
-      $(this.el.parent()).find('[name="preview"]').click()
+      $(this.el.parent()).find('[name="preview"]').click();
     },
 
     _remove: function (e) {
@@ -62,10 +62,10 @@ this.ckan.module('dashboard-view-edit', function ($, _) {
       e.preventDefault();
       var view_url = $(e.target).siblings().val().trim();
       var view_id = view_url.substr(view_url.length-36, 36);
-      template = '<li id="' + view_id + '"></li>'
+      template = '<li id="' + view_id + '"></li>';
       this.gridster.add_widget(template, 2, 2);
       this._serialize();
-      $(this.el.parent()).find('[name="preview"]').click()
+      $(this.el.parent()).find('[name="preview"]').click();
 
     },
 
