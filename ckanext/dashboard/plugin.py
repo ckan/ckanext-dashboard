@@ -64,14 +64,8 @@ class DashboardView(p.SingletonPlugin):
 
         current_view_ids = set(view['id'] for view in current_dashboard)
 
-        resource_views = []
-        for resource in data_dict['package'].get('resources', []):
-            views = toolkit.get_action('resource_view_list')(context, resource)
-            for view in views:
-                if view['id'] in current_view_ids or view['view_type'] == 'dashboard':
-                    continue
-                view['icon'] = helpers.resource_view_icon(view)
-                resource_views.append(view)
+        resource_views = self._get_resource_views_groupped_by_resource(context,
+                             current_view_ids, data_dict['package'])
 
         ## When rendering each view we need to provide both the views resource and
         ## the package.  This is expensive todo for each view and due to the
@@ -133,6 +127,20 @@ class DashboardView(p.SingletonPlugin):
                 'dropdown_values': dropdown_values,
                 'field_label_mapping': field_label_mapping,
                 'current_dropdown_values': current_dropdown_values}
+
+    def _get_resource_views_groupped_by_resource(self, context, current_view_ids, package):
+        resource_views = {}
+
+        for resource in package.get('resources', []):
+            views = toolkit.get_action('resource_view_list')(context, resource)
+            for view in views:
+                if view['id'] in current_view_ids or view['view_type'] == 'dashboard':
+                    continue
+                view['icon'] = helpers.resource_view_icon(view)
+                resource_views[resource['name']] = resource_views.get(resource['name'], [])
+                resource_views[resource['name']].append(view)
+
+        return resource_views
 
     def _get_field_to_label_mapping(self, resource_view):
         user_filter_fields = resource_view['user_filter_fields']

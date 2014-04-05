@@ -55,12 +55,15 @@
       {{ _('Add widget') }} <span class="caret"></span>
     </a>
     <ul id="dashboard-view-edit-new" class="dropdown-menu">
-      {% for view in available_views %}
-        <li>
-          <a href="#" data-view_id="{{ view.id }}" data-view-sizex="{{ h.resource_view_dimensions(view)['sizex'] }}" data-view-sizey="{{ h.resource_view_dimensions(view)['sizey'] }}">
-            <i class="icon-{{ view.icon }}"></i> {{ view.title }}
-          </a>
-        </li>
+      {% for resource_name in available_views %}
+        <li role="presentation" class="dropdown-header">{{ resource_name }}</li>
+        {% for view in available_views[resource_name] %}
+          <li>
+            <a href="#" data-view_id="{{ view.id }}" data-view-sizex="{{ h.resource_view_dimensions(view)['sizex'] }}" data-view-sizey="{{ h.resource_view_dimensions(view)['sizey'] }}">
+              <i class="icon-{{ view.icon }}"></i> {{ view.title }}
+            </a>
+          </li>
+        {% endfor %}
       {% endfor %}
     </ul>
   </div>
