@@ -21,6 +21,41 @@ config file. Make sure to put it after ```ckanext-viewhelper```.
 Restart your webserver. You should see the new "Dashboard" chart type as an
 option in the view type's list on any resource.
 
+Usage
+-----
+
+First of all, you need to have created the charts that will form the dashboard.
+Using the sample dashboard above as an example, you'd need a choropleth map
+(from [ckanext-mapviews](https://github.com/ckan/ckanext-mapviews)), a bar
+chart and a basic grid (both from
+[ckanext-basiccharts](https://github.com/ckan/ckanext-basiccharts)) before
+starting the dashboard.
+
+After you do that, go to the ```Manage resource``` page of the resource you
+want to create the dashboard for, and create a new ```Dashboard``` view.
+
+When you start creating a dashboard, before you're able to preview it and add
+any widgets, you need to decide it's title (you can change it later). Go ahead
+and write ```My Dashboard``` in the title input and click on ```Preview```.
+
+You should see a boring, empty dashboard at the bottom of the page. If you're
+paying attention, you'd notice that the ```Add widget``` and ```Add widget from
+URL``` buttons are now activated. Let's go ahead and start our first widget.
+
+Click on the ```Add widget``` button. You should see something similar to:
+
+![Add widget dropdown](doc/add-widget.png)
+
+There you'd see a list of every resource views' that belong to any resource in
+the current dataset, grouped by resource. Select a few of them.
+
+They'll be added to the dashboard preview in the bottom of the page. There you
+can resize them simply by dragging their borders, and also reorganize them on
+the dashboard by dragging and dropping. When you're happy with the
+organization, click on ```Add``` to save it.
+
+You're done! If you go to the resource's page, you should see your dashboard.
+
 License
 -------
 
