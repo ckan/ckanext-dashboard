@@ -7,6 +7,20 @@ This extension adds a dashboard to CKAN, which provides way to organize many of
 the new Resource View being developed in
 https://github.com/ckan/ckan/tree/1251-resource-view in a single page.
 
+Installation
+------------
+
+This extension depends on
+[ckanext-viewhelpers](https://github.com/ckan/ckanext-viewhelpers). You'd have
+to install it first.
+
+After that, simply clone this repository and run ```python setup.py install```.
+Then add ```dashboard_preview``` to the list in ```ckan.plugins``` in your CKAN
+config file. Make sure to put it after ```ckanext-viewhelper```.
+
+Restart your webserver. You should see the new "Dashboard" chart type as an
+option in the view type's list on any resource.
+
 License
 -------
 
