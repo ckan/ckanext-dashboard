@@ -1,0 +1,2 @@
+recursive-include    ckanext/dashboard/resources        *
+recursive-include    ckanext/dashboard/templates        *
