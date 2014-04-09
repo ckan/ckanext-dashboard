@@ -11,12 +11,12 @@ Installation
 ------------
 
 This extension depends on
-[ckanext-viewhelpers](https://github.com/ckan/ckanext-viewhelpers). You'd have
-to install it first.
+[ckanext-viewhelpers](//github.com/ckan/ckanext-viewhelpers). You have to
+install that first.
 
 After that, simply clone this repository and run ```python setup.py install```.
 Then add ```dashboard_preview``` to the list in ```ckan.plugins``` in your CKAN
-config file. Make sure to put it after ```ckanext-viewhelper```.
+config file. Make sure to put it after ```viewhelpers```.
 
 Restart your webserver. You should see the new "Dashboard" chart type as an
 option in the view type's list on any resource.
