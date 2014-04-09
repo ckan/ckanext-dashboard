@@ -52,7 +52,7 @@ the current dataset, grouped by resource. Select a few of them.
 They'll be added to the dashboard preview in the bottom of the page. There you
 can resize them simply by dragging their borders, and also reorganize them on
 the dashboard by dragging and dropping. When you're happy with the
-organization, click on ```Add``` to save it.
+layout, click on ```Add``` to save it.
 
 You're done! If you go to the resource's page, you should see your dashboard.
 
