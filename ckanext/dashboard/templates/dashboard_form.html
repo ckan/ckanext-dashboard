@@ -59,7 +59,7 @@
         <li role="presentation" class="dropdown-header">{{ resource_name }}</li>
         {% for view in available_views[resource_name] %}
           <li>
-            <a href="#" data-view_id="{{ view.id }}" data-view-sizex="{{ h.resource_view_dimensions(view)['sizex'] }}" data-view-sizey="{{ h.resource_view_dimensions(view)['sizey'] }}">
+            <a href="#" data-view_id="{{ view.id }}">
               <i class="icon-{{ view.icon }}"></i> {{ view.title }}
             </a>
           </li>

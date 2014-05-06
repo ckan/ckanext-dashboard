@@ -88,11 +88,6 @@ class DashboardView(p.SingletonPlugin):
                 current_dashboard.remove(view)
                 continue
 
-            ##use resource_view's sizes if there're no sizes defined in view
-            resource_view_dimensions = helpers.resource_view_dimensions(resource_view)
-            view['sizex'] = view.get('sizex', resource_view_dimensions['sizex'])
-            view['sizey'] = view.get('sizey', resource_view_dimensions['sizey'])
-
             view.update(resource_view)
 
             resource = resource_cache.get(view['resource_id'])

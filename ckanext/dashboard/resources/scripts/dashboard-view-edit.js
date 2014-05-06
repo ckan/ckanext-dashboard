@@ -2,6 +2,8 @@ this.ckan.module('dashboard-view-edit', function ($, _) {
   return {
     options: {
       size: 130,
+      widgetSizeX: 4,
+      widgetSizeY: 3,
       i18n: {
         edit: _('Edit'),
         remove: _('Remove')
@@ -51,9 +53,11 @@ this.ckan.module('dashboard-view-edit', function ($, _) {
 
     _add: function (e) {
       e.preventDefault();
-      var view_id = $(e.target).data('view_id');
+      var view_id = $(e.target).data('view_id'),
+          widgetSizeX = this.options.widgetSizeX,
+          widgetSizeY = this.options.widgetSizeY;
       template = '<li id="' + view_id + '"></li>';
-      this.gridster.add_widget(template, 2, 2);
+      this.gridster.add_widget(template, widgetSizeX, widgetSizeY);
       this._serialize();
       $(this.el.parent()).find('[name="preview"]').click();
     },
