@@ -100,6 +100,6 @@
 .dashboard-dropdown-container .dashboard-dropdown-values .select2-container .select2-search-choice-close {
   left: auto;
 }
-.dashboard-dropdown-container .dashboard-dropdown-values .select2-container .select2-chosen:empty ~ .select2-search-choice-close {
+.dashboard-dropdown-container .dashboard-dropdown-values .select2-container .select2-chosen:empty + .select2-search-choice-close {
   visibility: hidden !important;
 }
