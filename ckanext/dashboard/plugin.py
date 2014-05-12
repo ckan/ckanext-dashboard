@@ -110,18 +110,29 @@ class DashboardView(p.SingletonPlugin):
         resource_view = data_dict['resource_view']
         resource_view = self._filter_fields_and_names_as_list_without_duplicates(resource_view)
 
-        dropdown_values = get_filter_values(resource)
-        fields = _get_fields(dropdown_values)
+        filters_enabled = resource.get('datastore_active', False)
 
-        field_label_mapping = self._get_field_to_label_mapping(resource_view)
-        current_dropdown_values = self._get_dropdown_values(resource_view)
+        result = {
+            'available_views': resource_views,
+            'current_dashboard': current_dashboard,
+            'filters_enabled': filters_enabled,
+        }
 
-        return {'available_views': resource_views,
-                'current_dashboard': current_dashboard,
+        if filters_enabled:
+            dropdown_values = get_filter_values(resource)
+            fields = _get_fields(dropdown_values)
+            field_label_mapping = self._get_field_to_label_mapping(resource_view)
+            current_dropdown_values = self._get_dropdown_values(resource_view)
+
+            result.update({
                 'fields': fields,
                 'dropdown_values': dropdown_values,
                 'field_label_mapping': field_label_mapping,
-                'current_dropdown_values': current_dropdown_values}
+                'current_dropdown_values': current_dropdown_values
+            })
+
+
+        return result
 
     def _get_resource_views_groupped_by_resource(self, context, current_view_ids, package):
         resource_views = {}
@@ -232,6 +243,9 @@ def get_filter_values(resource):
     Leaves input as text box when the table is too big or there are too many
     distinct values.  Current limits are 5000 rows in table and 500 distict
     values.'''
+
+    if not resource.get('datastore_active'):
+        return {}
 
     data = {
         'resource_id': resource['id'],

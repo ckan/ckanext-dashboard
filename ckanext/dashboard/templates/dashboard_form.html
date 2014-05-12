@@ -30,6 +30,7 @@
   </div>
 {% endmacro %}
 
+{% if resource_view['filters_enabled'] %}
     {% set templateFilterInputs = selectAndInput('user_filter_fields', 'user_filter_names', selectOptions=fields) %}
     {% set filters = { 'fields': resource_view['user_filter_fields'], 'values': resource_view['user_filter_names'] } %}
 
@@ -45,8 +46,7 @@
               label=_('Allowed Filters'), options=fields, filters=filters, classes=["control-filters"])
       }}
     </div>
-
-
+{% endif %}
 
 <div class="dashboard-view-edit" data-module="dashboard-view-edit" data-module-size="{{h.dashboard_size()}}">
   <hr>
