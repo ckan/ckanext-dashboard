@@ -120,7 +120,7 @@ class DashboardView(p.SingletonPlugin):
 
         if filters_enabled:
             dropdown_values = get_filter_values(resource)
-            fields = _get_fields(dropdown_values)
+            fields = _get_fields(resource)
             field_label_mapping = self._get_field_to_label_mapping(resource_view)
             current_dropdown_values = self._get_dropdown_values(resource_view)
 
@@ -235,8 +235,18 @@ def parse_filter_params():
         filters[key].append(value)
     return dict(filters)
 
-def _get_fields(dropdown_values):
-    return [{'value': field} for field in dropdown_values.keys()]
+def _get_fields(resource):
+    if not resource.get('datastore_active'):
+        return []
+
+    data = {
+        'resource_id': resource['id'],
+        'limit': 0
+    }
+    result = p.toolkit.get_action('datastore_search')({}, data)
+
+    return [{'value': field['id']} for field in result.get('fields', []) if
+            field['type'] in ['text', 'timestamp']]
 
 def get_filter_values(resource):
     ''' Tries to get out filter values so they can appear in dropdown list.
