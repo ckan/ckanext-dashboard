@@ -1,4 +1,8 @@
+{# Don't show filters' UI on dashboard views' manage page #}
 {% ckan_extends %}
 
 {% block view_form_filters %}
+  {% if resource_view['view_type'] != 'dashboard' %}
+    {{ super() }}
+  {% endif %}
 {% endblock %}
