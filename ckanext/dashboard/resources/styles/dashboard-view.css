@@ -89,17 +89,3 @@
   left: 3px;
   position: relative;
 }
-.dashboard-dropdown-container {
-  margin-bottom: 1em;
-}
-.dashboard-dropdown-container .dashboard-dropdown-values .select2-container {
-  margin-right: 0.5em;
-  margin-bottom: 0.5em;
-  width: 200px;
-}
-.dashboard-dropdown-container .dashboard-dropdown-values .select2-container .select2-search-choice-close {
-  left: auto;
-}
-.dashboard-dropdown-container .dashboard-dropdown-values .select2-container .select2-chosen:empty + .select2-search-choice-close {
-  visibility: hidden !important;
-}
