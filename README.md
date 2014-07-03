@@ -53,12 +53,6 @@ They'll be added to the dashboard preview in the bottom of the page. There you
 can resize them simply by dragging their borders, and also reorganize them on
 the dashboard by dragging and dropping.
 
-If you'd like to allow the user to filter the data, click on `Add filter` on
-the `Allowed filters` field. You can select which columns are filterable
-(it's only possible to add textual or date columns currently), and change their
-labels. To understand how the filters work, check
-[ckanext-viewhelpers](//github.com/ckan/ckanext-viewhelpers/#filters).
-
 When you're happy with your dashboard, click on ```Add``` to save it. You're
 done! If you go to the resource's page, you should see it.
 
