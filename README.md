@@ -10,7 +10,8 @@ https://github.com/ckan/ckan/tree/1251-resource-view in a single page.
 Installation
 ------------
 
-This extension depends on
+This extension depends on the latest unreleased CKAN version being worked on
+the master branch and
 [ckanext-viewhelpers](//github.com/ckan/ckanext-viewhelpers). You have to
 install that first.
 
