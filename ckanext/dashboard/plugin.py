@@ -4,10 +4,14 @@ import ckan.plugins.toolkit as toolkit
 import ckan.lib.helpers as helpers
 import json
 import collections
+import six
+
+
 ignore_empty = toolkit.get_validator('ignore_empty')
 ignore = toolkit.get_validator('ignore')
 not_empty = toolkit.get_validator('not_empty')
 ignore_missing = toolkit.get_validator('ignore_missing')
+unicode_safe = toolkit.get_validator('unicode_safe')
 aslist = toolkit.aslist
 
 log = logging.getLogger(__name__)
@@ -40,7 +44,7 @@ class DashboardView(p.SingletonPlugin):
                 'title': 'Dashboard',
                 'icon': 'dashboard',
                 'iframed': False,
-                'schema': {'json': [ignore_empty, unicode],
+                'schema': {'json': [ignore_empty, unicode_safe],
                            'added_view_id': [ignore],
                            'user_filter_names': [ignore_missing],
                            'user_filter_fields': [ignore_missing]
@@ -195,12 +199,12 @@ class DashboardView(p.SingletonPlugin):
 
         if filter_fields is None:
             filter_fields = []
-        elif isinstance(filter_fields, basestring):
+        elif isinstance(filter_fields, six.string_types):
             filter_fields = [filter_fields]
 
         if filter_names is None:
             filter_names = []
-        elif isinstance(filter_names, basestring):
+        elif isinstance(filter_names, six.string_types):
             filter_names = [filter_names]
 
         resource_view['user_filter_fields'] = filter_fields
@@ -227,7 +231,11 @@ class DashboardView(p.SingletonPlugin):
 
 def parse_filter_params():
     filters = collections.defaultdict(list)
-    filter_string = dict(p.toolkit.request.GET).get('filters', '')
+    try:
+        filter_string = dict(p.toolkit.request.GET).get('filters', '')
+    except:
+        # ckan >= 2.9
+        filter_string = p.toolkit.request.args.get('filters', '')
     for filter in filter_string.split('|'):
         if filter.count(':') != 1:
             continue
@@ -276,6 +284,7 @@ def get_filter_values(resource):
         # keep as input if there are too many distinct values.
         if len(distinct_values) > 500:
             continue
+        distinct_values = {value for value in distinct_values if value}
         filter_values[field['id']] = [{'id': value, 'text': value}
                                       for value
                                       in sorted(list(distinct_values))]

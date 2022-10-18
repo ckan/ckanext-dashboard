@@ -1,5 +1,6 @@
 {% import 'macros/form.html' as form %}
-{% resource 'dashboard-view/form' %}
+{% set type = 'asset' if h.ckan_version().split('.')[1] | int >= 9 else 'resource' %}
+{% include '/snippets/dashboard_form_' ~ type ~ '.html' %}
 
 {% macro filtersInputs(name, selectName, inputName, label='', options='', error='', filters={}, classes=[], attrs={}, is_required=false) %}
   {% set classes = (classes|list) %}
