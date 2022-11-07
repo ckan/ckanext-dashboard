@@ -1,0 +1,32 @@
+main_js:
+  extra:
+    preload:
+      - viewhelpers/viewhelpers_js
+  contents:
+    - scripts/dashboard-view.js
+    - vendor/jquery.dotdotdot.js
+    - vendor/jquery.gridster.with-extras.js
+    - vendor/jquery.gridster.js
+
+form_js:
+  extra:
+    preload:
+     - viewhelpers/viewhelpers_js
+  contents:
+    - scripts/dashboard-view-edit.js
+
+form_css:
+  extra:
+    preload:
+     - viewhelpers/viewhelpers_css
+  contents:
+    - styles/dashboard-view-edit.css
+
+main_css:
+  filters: cssrewrite
+  extra:
+    preload:
+     - viewhelpers/viewhelpers_css
+  contents:
+    - styles/dashboard-view.css
+    - vendor/jquery.gridster.css
