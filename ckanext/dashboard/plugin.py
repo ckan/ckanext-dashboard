@@ -9,6 +9,7 @@ ignore = toolkit.get_validator('ignore')
 not_empty = toolkit.get_validator('not_empty')
 ignore_missing = toolkit.get_validator('ignore_missing')
 aslist = toolkit.aslist
+unicode = str
 
 log = logging.getLogger(__name__)
 
